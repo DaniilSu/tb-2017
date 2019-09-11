@@ -471,7 +471,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 
 # Usage
 if len(sys.argv) < 4:
-	sys.stderr.write('Usage:\t' + str(sys.argv[0]) + ' mamba_root vme_rooot numberOfRun (optional): bin_size (um) statistics_fraction (0..1.0) ...\n')
+	sys.stderr.write('Usage:\t' + str(sys.argv[0]) + ' mamba_root vme_rooot numberOfRun (optional): bin_size (um) statistics_fraction (0..1.0) optional(time_window (ns)) ...\n')
 	sys.exit(1)
 
 #################################################
@@ -1056,7 +1056,7 @@ Xerrs = [ 0.005, 0.005, 0.005, 0.005] # estimated
 Zerrs = [0.1, 0.1, 0.1, 0.1]
 
 if sigmaTest:
-	distSigma = 25. # ns
+	distSigma = float(sys.argv[6]) # ns
 else:
 	distSigma = None
 

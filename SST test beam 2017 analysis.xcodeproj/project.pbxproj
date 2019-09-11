@@ -6,10 +6,15 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXFileReference section */
+		A5B8C34323293FDD006A036C /* sync_with_tracks_inter_toyMC.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = sync_with_tracks_inter_toyMC.py; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		A5B8C33C23293EDF006A036C = {
 			isa = PBXGroup;
 			children = (
+				A5B8C34323293FDD006A036C /* sync_with_tracks_inter_toyMC.py */,
 			);
 			sourceTree = "<group>";
 		};
