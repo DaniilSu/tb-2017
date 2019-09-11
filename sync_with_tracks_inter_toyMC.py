@@ -189,7 +189,7 @@ def chooseTheBest(nt, tt, tt08, vshapeVal, sigma=None) :
 			if (dist < dist_old) :
 				 best = i + 1
 				 dist_old = dist
-		return best
+		return valid.append(best)
 	else:
 		for i in range(0,nt) :
 			dist = abs(conversion*(tt[i]-tt08[0])-vshapeVal)
