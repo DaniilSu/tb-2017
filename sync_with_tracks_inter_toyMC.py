@@ -181,6 +181,7 @@ def findInverseFunc(coord,dtime,errorcoord,errordtime,apex) :
 
 def chooseTheBest(nt, tt, tt08, vshapeVal, sigma=None) :
 	best = 0
+	trigger = -1
 	valid = []
 	dist_old = abs(conversion*(tt[0]-tt08[0])-vshapeVal)
 	if not sigma:
@@ -194,10 +195,13 @@ def chooseTheBest(nt, tt, tt08, vshapeVal, sigma=None) :
 	else:
 		for i in range(0,nt) :
 			dist = abs(conversion*(tt[i]-tt08[0])-vshapeVal)
-			if (dist < sigma) and (dist < dist_old):
-				 best = i
-				 dist_old = dist
-		valid.append(best)
+			if (dist < sigma) :
+				trigger = 1
+				if (dist < dist_old):
+					best = i
+					dist_old = dist
+		if trigger > 0 :
+			valid.append(best)
 		return valid
 
 def FindRMSofSlices(input_histo, onX, firstbin, lastbin, cut, option, arr=None):
