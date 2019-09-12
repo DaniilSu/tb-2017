@@ -194,8 +194,10 @@ def chooseTheBest(nt, tt, tt08, vshapeVal, sigma=None) :
 	else:
 		for i in range(0,nt) :
 			dist = abs(conversion*(tt[i]-tt08[0])-vshapeVal)
-			if (dist < sigma) :
-				 valid.append(i)
+			if (dist < sigma) and (dist < dist_old):
+				 best = i
+				 dist_old = dist
+		valid.append(best)
 		return valid
 
 def FindRMSofSlices(input_histo, onX, firstbin, lastbin, cut, option, arr=None):
