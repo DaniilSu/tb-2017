@@ -2601,19 +2601,19 @@ if noiseRedFlag:
 	resolution_slices[2].SetXTitle("Y (cm)")
 	resolution_slices[2].SetYTitle("sigma (cm)")
 	resolution_slices[2].Write()
-if enableToyMC:
-	resolution_slices_toy[0].SetXTitle("Y (cm)")
-	resolution_slices_toy[0].Write()
-	resolution_slices_toy[1].SetXTitle("Y (cm)")
-	resolution_slices_toy[1].SetYTitle("residual Y (cm)")
-	resolution_slices_toy[1].Write()
-	resolution_slices_toy[2].SetXTitle("Y (cm)")
-	resolution_slices_toy[2].SetYTitle("sigma (cm)")
-	resolution_slices_toy[2].Write()
-if enableToyMC:
-	resolutionL_toy.SetXTitle("Y (cm)")
-	resolutionL_toy.SetYTitle("residual Y (cm)")
-	resolutionL_toy.Write()
+	if enableToyMC:
+		resolution_slices_toy[0].SetXTitle("Y (cm)")
+		resolution_slices_toy[0].Write()
+		resolution_slices_toy[1].SetXTitle("Y (cm)")
+		resolution_slices_toy[1].SetYTitle("residual Y (cm)")
+		resolution_slices_toy[1].Write()
+		resolution_slices_toy[2].SetXTitle("Y (cm)")
+		resolution_slices_toy[2].SetYTitle("sigma (cm)")
+		resolution_slices_toy[2].Write()
+	if enableToyMC:
+		resolutionL_toy.SetXTitle("Y (cm)")
+		resolutionL_toy.SetYTitle("residual Y (cm)")
+		resolutionL_toy.Write()
 if noiseRedFlag:
 	resolutionL.SetXTitle("Y (cm)")
 	resolutionL.SetYTitle("residual Y (cm)")
@@ -2626,15 +2626,15 @@ if noiseRedFlag:
 	resolution_slices_long[2].SetXTitle("Y (cm)")
 	resolution_slices_long[2].SetYTitle("sigma (cm)")
 	resolution_slices_long[2].Write()
-if enableToyMC:
-	resolution_slices_long_toy[0].SetXTitle("Y (cm)")
-	resolution_slices_long_toy[0].Write()
-	resolution_slices_long_toy[1].SetXTitle("Y (cm)")
-	resolution_slices_long_toy[1].SetYTitle("residual Y (cm)")
-	resolution_slices_long_toy[1].Write()
-	resolution_slices_long_toy[2].SetXTitle("Y (cm)")
-	resolution_slices_long_toy[2].SetYTitle("sigma (cm)")
-	resolution_slices_long_toy[2].Write()
+	if enableToyMC:
+		resolution_slices_long_toy[0].SetXTitle("Y (cm)")
+		resolution_slices_long_toy[0].Write()
+		resolution_slices_long_toy[1].SetXTitle("Y (cm)")
+		resolution_slices_long_toy[1].SetYTitle("residual Y (cm)")
+		resolution_slices_long_toy[1].Write()
+		resolution_slices_long_toy[2].SetXTitle("Y (cm)")
+		resolution_slices_long_toy[2].SetYTitle("sigma (cm)")
+		resolution_slices_long_toy[2].Write()
 
 
 resol_file.Close()
