@@ -188,20 +188,16 @@ def chooseTheBest(nt, tt, tt08, vshapeVal, sigma=None) :
 		for i in xrange(nt-1) :
 			dist = abs(conversion*(tt[i+1]-tt08[0])-vshapeVal)
 			if (dist < dist_old) :
-				 best = i + 1
-				 dist_old = dist
+				best = i + 1
+				dist_old = dist
 		valid.append(best)
 		return valid
 	else:
 		for i in range(0,nt) :
 			dist = abs(conversion*(tt[i]-tt08[0])-vshapeVal)
-			if (dist < sigma) :
-				trigger = 1
-				if (dist < dist_old):
-					best = i
-					dist_old = dist
-		if trigger > 0 :
-			valid.append(best)
+			if (dist < sigma):
+				best = i
+				valid.append(best)
 		return valid
 
 def FindRMSofSlices(input_histo, onX, firstbin, lastbin, cut, option, arr=None):
@@ -637,7 +633,7 @@ advVshapeFit = True
 
 # sigma test Flag
 
-sigmaTest = True
+sigmaTest = False
 
 # declare the histograms for residual calculations
 
