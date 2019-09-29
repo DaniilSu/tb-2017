@@ -1724,7 +1724,10 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					resolutionS.Fill(Ytrak[4],inverseVshapeParametric(conversion*(tt00[0]-tt08[0]),parS,Ytrak[4])-Ytrak[4])
 			   
 			if ((nt00>1) and (nt08==1)) :
-				bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametric(Ytrak[4],parS),distSigma)
+				if advVshapeFit:
+					bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametricMod(Ytrak[4],parS),distSigma)
+				else:
+					bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametric(Ytrak[4],parS),distSigma)
 				if len(bestPoints) < 1: continue
 				if len(bestPoints) > 1: N_passed_2nd_hits += len(bestPoints) - 1
 				for best in bestPoints:
@@ -1792,7 +1795,10 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					resolutionL.Fill(Ytrak[5],inverseVshapeParametric(conversion*(tt01[0]-tt08[0]),parL,Ytrak[5])-Ytrak[5])
 
 			if ((nt01>1) and (nt08==1)) :
-				bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametric(Ytrak[5],parL),distSigma)
+				if advVshapeFit:
+					bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametricMod(Ytrak[5],parL),distSigma)
+				else:
+					bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametric(Ytrak[5],parL),distSigma)
 				if len(bestPoints) < 1: continue
 				for best in bestPoints:
 					XYboth_long.Fill(Xtrak[5],Ytrak[5])
