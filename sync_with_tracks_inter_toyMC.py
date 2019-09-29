@@ -609,7 +609,7 @@ noiseRedFlag = False
 
 # batch flag
 
-batchFlag = True
+batchFlag = False
 
 # create sync file
 
@@ -633,7 +633,11 @@ advVshapeFit = True
 
 # sigma test Flag
 
-sigmaTest = True
+sigmaTest = False
+
+# ntrk test flag
+
+ntrkFlag = True
 
 # declare the histograms for residual calculations
 
@@ -1839,7 +1843,8 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				XYstr_long.Fill(Xtrak[5],Ytrak[5])
 				TDC_str_trk_long.Fill(conversion*tt01[0])
 
-			if (nt00 == 1 and nt08 == 1):
+			if ntrkFlag:
+				if (nt00 == int(sys.argv[7]) and nt08 == 1):
 				XYboth.Fill(Xtrak[4],Ytrak[4])
 				for i in range(nt00):
 					TDC_dif_trk.Fill(conversion*(tt00[i]-tt08[0]))
@@ -1848,6 +1853,16 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					N_tracks_straw += 1
 				very_good_track += 1
 				passed_tracks.Fill(Ytrak[4])
+			else:
+				if (nt00 == 1 and nt08 == 1):
+					XYboth.Fill(Xtrak[4],Ytrak[4])
+					for i in range(nt00):
+						TDC_dif_trk.Fill(conversion*(tt00[i]-tt08[0]))
+						VshapeX.Fill(Xtrak[4],conversion*(tt00[i]-tt08[0]))
+						VshapeY.Fill(Ytrak[4],conversion*(tt00[i]-tt08[0]))
+						N_tracks_straw += 1
+					very_good_track += 1
+					passed_tracks.Fill(Ytrak[4])
 
 			if (nt00 == 1 and nt03 == 1 and nt04 == 1):
 				VshapeY_SiPM_up.Fill(Ytrak[4],conversion*(tt00[0]-(tt03[0] + tt04[0])/2))
