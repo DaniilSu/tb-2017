@@ -1805,7 +1805,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				else:
 					bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametric(Ytrak[5],parL),distSigma)
 				if len(bestPoints) < 1: continue
-				XYboth_long.Fill(Xtrak[5],Ytrak[5])
+				XYboth_long.Fill(Xtrak[5],Ytrak[5])
 				passed_tracks_long.Fill(Ytrak[5])
 				for best in bestPoints:
 					TDC_dif_trk_long.Fill(conversion*(tt01[best]-tt08[0]))
