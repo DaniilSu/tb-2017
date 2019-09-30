@@ -474,7 +474,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 
 # Usage
 if len(sys.argv) < 4:
-	sys.stderr.write('Usage:\t' + str(sys.argv[0]) + ' mamba_root vme_rooot numberOfRun (optional): bin_size (um) statistics_fraction (0..1.0) optional(time_window (ns)) ...\n')
+	sys.stderr.write('Usage:\t' + str(sys.argv[0]) + ' mamba_root vme_rooot (optional) numberOfRun (optional): bin_size (um) statistics_fraction (0..1.0) optional(time_window (ns)) number_of_hits_in_short_straw (optional)...\n')
 	sys.exit(1)
 
 #################################################
@@ -1066,6 +1066,11 @@ if sigmaTest:
 	distSigma = float(sys.argv[6]) # ns
 else:
 	distSigma = None
+
+if ntrkFlag:
+	nHitsInShortStraw = int(sys.argv[7])
+else:
+	nHitsInShortStraw = 1
 
 for i in range(6):
 	if i < 4:
@@ -1805,7 +1810,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				else:
 					bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametric(Ytrak[5],parL),distSigma)
 				if len(bestPoints) < 1: continue
-				XYboth_long.Fill(Xtrak[5],Ytrak[5])
+				XYboth_long.Fill(Xtrak[5],Ytrak[5])
 				passed_tracks_long.Fill(Ytrak[5])
 				for best in bestPoints:
 					TDC_dif_trk_long.Fill(conversion*(tt01[best]-tt08[0]))
@@ -1843,8 +1848,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				XYstr_long.Fill(Xtrak[5],Ytrak[5])
 				TDC_str_trk_long.Fill(conversion*tt01[0])
 
-			if ntrkFlag:
-				if (nt00 == int(sys.argv[7]) and nt08 == 1):
+			if (nt00 == nHitsInShortStraw) and nt08 == 1):
 				XYboth.Fill(Xtrak[4],Ytrak[4])
 				for i in range(nt00):
 					TDC_dif_trk.Fill(conversion*(tt00[i]-tt08[0]))
@@ -1853,16 +1857,6 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					N_tracks_straw += 1
 				very_good_track += 1
 				passed_tracks.Fill(Ytrak[4])
-			else:
-				if (nt00 == 1 and nt08 == 1):
-					XYboth.Fill(Xtrak[4],Ytrak[4])
-					for i in range(nt00):
-						TDC_dif_trk.Fill(conversion*(tt00[i]-tt08[0]))
-						VshapeX.Fill(Xtrak[4],conversion*(tt00[i]-tt08[0]))
-						VshapeY.Fill(Ytrak[4],conversion*(tt00[i]-tt08[0]))
-						N_tracks_straw += 1
-					very_good_track += 1
-					passed_tracks.Fill(Ytrak[4])
 
 			if (nt00 == 1 and nt03 == 1 and nt04 == 1):
 				VshapeY_SiPM_up.Fill(Ytrak[4],conversion*(tt00[0]-(tt03[0] + tt04[0])/2))
