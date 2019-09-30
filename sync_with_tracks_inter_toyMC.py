@@ -1735,14 +1735,14 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametric(Ytrak[4],parS),distSigma)
 				if len(bestPoints) < 1: continue
 				if len(bestPoints) > 1: N_passed_2nd_hits += len(bestPoints) - 1
+				XYboth.Fill(Xtrak[4],Ytrak[4])
+				passed_tracks.Fill(Ytrak[4])
 				for best in bestPoints:
-					XYboth.Fill(Xtrak[4],Ytrak[4])
 					TDC_dif_trk.Fill(conversion*(tt00[best]-tt08[0]))
 					VshapeX.Fill(Xtrak[4],conversion*(tt00[best]-tt08[0]))
 					VshapeY.Fill(Ytrak[4],conversion*(tt00[best]-tt08[0]))
 					very_good_track += 1
 					N_tracks_straw += 1
-					passed_tracks.Fill(Ytrak[4])
 					if advVshapeFit:
 	#					resolutionS.Fill(Ytrak[4],inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])-Ytrak[4])
 						if conversion*(tt00[best]-tt08[0]) <= SinterTopMax or conversion*(tt00[best]-tt08[0]) <= SinterBotMax :
@@ -1805,14 +1805,14 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				else:
 					bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametric(Ytrak[5],parL),distSigma)
 				if len(bestPoints) < 1: continue
+				XYboth_long.Fill(Xtrak[5],Ytrak[5])
+				passed_tracks_long.Fill(Ytrak[5])
 				for best in bestPoints:
-					XYboth_long.Fill(Xtrak[5],Ytrak[5])
 					TDC_dif_trk_long.Fill(conversion*(tt01[best]-tt08[0]))
 					VshapeX_long.Fill(Xtrak[5],conversion*(tt01[best]-tt08[0]))
 					VshapeY_long.Fill(Ytrak[5],conversion*(tt01[best]-tt08[0]))
 					very_good_track_long += 1
 					N_tracks_straw_long += 1
-					passed_tracks_long.Fill(Ytrak[5])
 					if advVshapeFit:
 	#					resolutionL.Fill(Ytrak[5],inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])-Ytrak[5])
 						if conversion*(tt01[best]-tt08[0]) <= LinterTopMax or conversion*(tt01[best]-tt08[0]) <= LinterBotMax :
