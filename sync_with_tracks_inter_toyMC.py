@@ -633,11 +633,11 @@ advVshapeFit = True
 
 # sigma test Flag
 
-sigmaTest = False
+sigmaTest = True
 
 # ntrk test flag
 
-ntrkFlag = True
+ntrkFlag = False
 
 # declare the histograms for residual calculations
 
