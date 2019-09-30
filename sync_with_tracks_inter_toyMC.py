@@ -514,7 +514,9 @@ XYboth =  TH2F("XY_dut_withboth"  , "XY_dut_withboth"   , 200, -10.0, 10.0, 200,
 
 XYdut_long  =  TH2F("XY_dut_long"           , "XY_dut_long"            , 200, -10.0, 10.0, 200, -10.0, 10.0)
 XYstr_long  =  TH2F("XY_dut_withstraw_long" , "XY_dut_withstraw_long"  , 200, -10.0, 10.0, 200, -10.0, 10.0)
+print "I am before!!!"
 XYtim_long  =  TH2F("XY_dut_withtiming_long", "XY_dut_withtiming_long" , 200, -10.0, 10.0, 200, -10.0, 10.0)
+print "I am after !!!"
 XYboth_long =  TH2F("XY_dut_withboth_long"  , "XY_dut_withboth_long"   , 200, -10.0, 10.0, 200, -10.0, 10.0)
 
 # VME TDC hits:
