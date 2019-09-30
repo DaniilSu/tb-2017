@@ -1848,7 +1848,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				XYstr_long.Fill(Xtrak[5],Ytrak[5])
 				TDC_str_trk_long.Fill(conversion*tt01[0])
 
-			if (nt00 == nHitsInShortStraw) and nt08 == 1):
+			if (nt00 == nHitsInShortStraw and nt08 == 1):
 				XYboth.Fill(Xtrak[4],Ytrak[4])
 				for i in range(nt00):
 					TDC_dif_trk.Fill(conversion*(tt00[i]-tt08[0]))
