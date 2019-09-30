@@ -1845,14 +1845,14 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 
 			if ntrkFlag:
 				if (nt00 == int(sys.argv[7]) and nt08 == 1):
-				XYboth.Fill(Xtrak[4],Ytrak[4])
-				for i in range(nt00):
-					TDC_dif_trk.Fill(conversion*(tt00[i]-tt08[0]))
-					VshapeX.Fill(Xtrak[4],conversion*(tt00[i]-tt08[0]))
-					VshapeY.Fill(Ytrak[4],conversion*(tt00[i]-tt08[0]))
-					N_tracks_straw += 1
-				very_good_track += 1
-				passed_tracks.Fill(Ytrak[4])
+					XYboth.Fill(Xtrak[4],Ytrak[4])
+					for i in range(nt00):
+						TDC_dif_trk.Fill(conversion*(tt00[i]-tt08[0]))
+						VshapeX.Fill(Xtrak[4],conversion*(tt00[i]-tt08[0]))
+						VshapeY.Fill(Ytrak[4],conversion*(tt00[i]-tt08[0]))
+						N_tracks_straw += 1
+					very_good_track += 1
+					passed_tracks.Fill(Ytrak[4])
 			else:
 				if (nt00 == 1 and nt08 == 1):
 					XYboth.Fill(Xtrak[4],Ytrak[4])
