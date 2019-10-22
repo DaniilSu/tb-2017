@@ -514,8 +514,8 @@ XYboth =  TH2F("XY_dut_withboth"  , "XY_dut_withboth"   , 200, -10.0, 10.0, 200,
 
 XYdut_long  =  TH2F("XY_dut_long"           , "XY_dut_long"            , 200, -10.0, 10.0, 200, -10.0, 10.0)
 XYstr_long  =  TH2F("XY_dut_withstraw_long" , "XY_dut_withstraw_long"  , 200, -10.0, 10.0, 200, -10.0, 10.0)
-XYtim_long  =  TH2F("XY_dut_withtiming_long", "XY_dut_withtiming_long" , 200, -10.0, 10.0, 200, -10.0, 10.0)
 XYboth_long =  TH2F("XY_dut_withboth_long"  , "XY_dut_withboth_long"   , 200, -10.0, 10.0, 200, -10.0, 10.0)
+#XYtim_long  =  TH2F("XY_dut_withtiming_long", "XY_dut_withtiming_long" , 200, -10.0, 10.0, 200, -10.0, 10.0)
 
 # VME TDC hits:
 maxTDC_S = 1300.0
@@ -1673,7 +1673,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 		XYdut_long.Fill(Xtrak[5],Ytrak[5])
 		if (nt08==1) :
 			XYtim.Fill(Xtrak[4],Ytrak[4])
-			XYtim_long.Fill(Xtrak[5],Ytrak[5])
+#			XYtim_long.Fill(Xtrak[5],Ytrak[5])
 			TDC_tim_trk.Fill(conversion*tt08[0])
 			N_tracks_tot += 1
 			tot_tracks.Fill(Ytrak[4])
@@ -1998,7 +1998,7 @@ vshape_pars_histo_long = FitSlicesDoubleGaussian(VshapeY_long,True,VshapeY_long.
 # plotting
 
 if not batchFlag :
-
+	
 	gStyle.SetOptStat(111111)
 
 	# timestamp plots
@@ -2055,7 +2055,7 @@ if not batchFlag :
 	XYboth.SetYTitle("Y (cm)")
 	XYboth.Draw("colz")
 	C_XYdut.SaveAs(plots_dir + "XYdut.png")
-
+	
 	C_XYdut_long =  TCanvas("C_XYdut_long", "C_XYdut_long",1280,800)
 	C_XYdut_long.Divide(2,2)
 	C_XYdut_long.cd(1)
@@ -2067,9 +2067,9 @@ if not batchFlag :
 	XYstr_long.SetYTitle("Y (cm)")
 	XYstr_long.Draw("colz")
 	C_XYdut_long.cd(3)
-	XYtim_long.SetXTitle("X (cm)")
-	XYtim_long.SetYTitle("Y (cm)")
-	XYtim_long.Draw("colz")
+#	XYtim_long.SetXTitle("X (cm)")
+#	XYtim_long.SetYTitle("Y (cm)")
+#	XYtim_long.Draw("colz")
 	C_XYdut_long.cd(4)
 	XYboth_long.SetXTitle("X (cm)")
 	XYboth_long.SetYTitle("Y (cm)")
