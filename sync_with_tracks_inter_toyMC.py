@@ -162,7 +162,7 @@ def findInverseFunc(coord,dtime,errorcoord,errordtime,apex) :
 #	gre1.GetYaxis().SetTitle("Y (cm)")
 #	gre1.SetTitle("Left branch of the V-shape")
 #	gre1.Draw("AP")
-#	a.SaveAs("top_branch_old.png")
+#	a.SaveAs("top_branch_old.pdf")
 	gre2.Fit(pf2,"WWQNR")
 	pf2.GetParameters(par2)
 	gre2.Fit(pf2,"QNR")
@@ -173,7 +173,7 @@ def findInverseFunc(coord,dtime,errorcoord,errordtime,apex) :
 #	gre2.GetYaxis().SetTitle("Y (cm)")
 #	gre2.SetTitle("Right branch of the V-shape")
 #	gre2.Draw("AP")
-#	b.SaveAs("bottom_branch_old.png")
+#	b.SaveAs("bottom_branch_old.pdf")
 #	raw_input("Press any key to continue\n")
 	pf1.GetParameters(par1)
 	pf2.GetParameters(par2)
@@ -1644,7 +1644,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			YZtrakgraph.SetMarkerStyle(5)
 			YZtrakgraph.SetMarkerSize(0.7)
 			YZtrakgraph.Draw("PAsame")
-			aname = "visual_" + `nnn` + ".png"
+			aname = "visual_" + `nnn` + ".pdf"
 			c1.Modified()
 			c1.SaveAs(plots_dir + aname)
 
@@ -1995,7 +1995,16 @@ vshape_pars_histo_long = FitSlicesDoubleGaussian(VshapeY_long,True,VshapeY_long.
 
 if not batchFlag :
 
-	gStyle.SetOptStat(111111)
+	gStyle.SetOptStat(1111111)
+	gStyle.SetTitleXSize(0.045)
+	gStyle.SetLabelSize(0.045,"y")
+	gStyle.SetLabelSize(0.045)
+	gStyle.SetStatX(0.9)
+	gStyle.SetStatY(0.9)
+	gStyle.SetStatH(0.2)
+	gStyle.SetStatW(0.3)
+	gStyle.SetStatStyle(0)
+	gStyle.SetTitleFontSize(0.060)
 
 	# timestamp plots
 
@@ -2009,7 +2018,7 @@ if not batchFlag :
 	T_ms.Draw()
 	C_cl.cd(4)
 	T_us.Draw()
-	C_cl.SaveAs(plots_dir + "cl.png")
+	C_cl.SaveAs(plots_dir + "cl.pdf")
 
 	C_cldif =  TCanvas("C_cldif", "C_cldif",1280,800)
 	C_cldif.Divide(2,3)
@@ -2025,13 +2034,9 @@ if not batchFlag :
 	TSdif2.Draw()
 	C_cldif.cd(6)
 	TSDif2.Draw()
-	C_cldif.SaveAs(plots_dir + "cldif.png")
+	C_cldif.SaveAs(plots_dir + "cldif.pdf")
 
 	# DUT, TDC and Vshape plots
-	statXdef = gStyle.GetStatX()
-	statYdef = gStyle.GetStatY()
-	gStyle.SetStatX(0.9)
-	gStyle.SetStatY(0.9)
 	C_XYdut =  TCanvas("C_XYdut", "C_XYdut",1280,800)
 	C_XYdut.Divide(2,2)
 	C_XYdut.cd(1)
@@ -2050,7 +2055,7 @@ if not batchFlag :
 	XYboth.SetXTitle("X (cm)")
 	XYboth.SetYTitle("Y (cm)")
 	XYboth.Draw("colz")
-	C_XYdut.SaveAs(plots_dir + "XYdut.png")
+	C_XYdut.SaveAs(plots_dir + "XYdut.pdf")
 
 	C_XYdut_long =  TCanvas("C_XYdut_long", "C_XYdut_long",1280,800)
 	C_XYdut_long.Divide(2,2)
@@ -2070,9 +2075,7 @@ if not batchFlag :
 	XYboth_long.SetXTitle("X (cm)")
 	XYboth_long.SetYTitle("Y (cm)")
 	XYboth_long.Draw("colz")
-	C_XYdut_long.SaveAs(plots_dir + "XYdut_long.png")
-	gStyle.SetStatX(statXdef)
-	gStyle.SetStatY(statYdef)
+	C_XYdut_long.SaveAs(plots_dir + "XYdut_long.pdf")
 
 	C_tdc =  TCanvas("C_tdc", "C_tdc",1280,800)
 	C_tdc.Divide(3,2)
@@ -2096,7 +2099,7 @@ if not batchFlag :
 	C_tdc.cd(6)
 	TDC_dif_trk.SetXTitle("TDC (ns)")
 	TDC_dif_trk.Draw()
-	C_tdc.SaveAs(plots_dir + "tdc.png")
+	C_tdc.SaveAs(plots_dir + "tdc.pdf")
 
 	C_tdc_long =  TCanvas("C_tdc_long", "C_tdc_long",1280,800)
 	C_tdc_long.Divide(3,2)
@@ -2120,7 +2123,7 @@ if not batchFlag :
 	C_tdc_long.cd(6)
 	TDC_dif_trk_long.SetXTitle("TDC (ns)")
 	TDC_dif_trk_long.Draw()
-	C_tdc_long.SaveAs(plots_dir + "tdc_long.png")
+	C_tdc_long.SaveAs(plots_dir + "tdc_long.pdf")
 
 	C_t =  TCanvas("C_t", "C_t",1280,800)
 	C_t.Divide(2,2)
@@ -2184,7 +2187,7 @@ if not batchFlag :
 		parL = np.array(parL).flatten('C')
 		VshapeY_fit_long.SetParameters(parL)
 		VshapeY_fit_long.Draw("same")
-	C_t.SaveAs(plots_dir + "vshapes.png")
+	C_t.SaveAs(plots_dir + "vshapes.pdf")
 	
 	gStyle.SetStatX(0.6)
 	gStyle.SetStatY(0.9)
@@ -2206,9 +2209,9 @@ if not batchFlag :
 	VshapeY_long_SiPM_down.SetXTitle("Y (cm)")
 	VshapeY_long_SiPM_down.SetYTitle("t (ns)")
 	VshapeY_long_SiPM_down.Draw("colz")
-	C_t_SiPMs.SaveAs(plots_dir + "vshapes_SiPMs.png")
-	gStyle.SetStatX(statXdef)
-	gStyle.SetStatY(statYdef)
+	C_t_SiPMs.SaveAs(plots_dir + "vshapes_SiPMs.pdf")
+	gStyle.SetStatX(0.9)
+	gStyle.SetStatY(0.9)
 
 	C_eff = TCanvas("C_eff", "C_eff", 1280, 800)
 	C_eff.Divide(2,2)
@@ -2232,7 +2235,7 @@ if not batchFlag :
 	effY_long_zoom = effY_long.Clone()
 	effY_long_zoom.GetYaxis().SetRangeUser(0.9,1.1)
 	effY_long_zoom.Draw()
-	C_eff.SaveAs(plots_dir + "efficiency.png")
+	C_eff.SaveAs(plots_dir + "efficiency.pdf")
 
 	if noiseRedFlag :
 		C_resolSL = TCanvas("C_resolSL", "C_resolSL", 1280, 800)
@@ -2346,7 +2349,7 @@ if not batchFlag :
 		#vshape_pars_histo_long[5].Draw()
 		#rmsL_second = aSlicesL_second[2].Clone()
 		#rmsL_second.Draw()
-		C_resolSL.SaveAs(plots_dir + "resolutionS+L.png")
+		C_resolSL.SaveAs(plots_dir + "resolutionS+L.pdf")
 
 		if enableToyMC:
 			C_toyMC =  TCanvas("C_toyMC", "C_toyMC",1280,800)
@@ -2387,7 +2390,7 @@ if not batchFlag :
 			parL = np.array(parL).flatten('C')
 			VshapeY_long_fit.SetParameters(parL)
 			VshapeY_long_fit.Draw("same")
-			C_toyMC.SaveAs(plots_dir + "vshapes_toyMC.png")
+			C_toyMC.SaveAs(plots_dir + "vshapes_toyMC.pdf")
 
 	'''raw_input("Press any key to continue\n")
 
@@ -2413,7 +2416,7 @@ if not batchFlag :
 	C_resolL.cd(6)
 	rmsL_second = aSlicesL_second[2].Clone()
 	rmsL_second.Draw()
-	C_resolL.SaveAs(plots_dir + "resolutionL.png")'''
+	C_resolL.SaveAs(plots_dir + "resolutionL.pdf")'''
 
 
 	# canvas for residuals
@@ -2438,8 +2441,6 @@ if not batchFlag :
 
 	for iDet in range(nDets):
 		c_resU_Det.cd(iDet+1)
-		gStyle.SetStatX(0.9)
-		gStyle.SetStatY(0.9)
 		resU_Det[iDet].Draw()
 		resU_Det[iDet].Fit("gaus","R")
 		
@@ -2455,22 +2456,20 @@ if not batchFlag :
 		c_resUvsSlpY_Det.cd(iDet+1)
 		resUvsSlpY_Det[iDet].Draw("colz")
 	
-	gStyle.SetStatX(statXdef)
-	gStyle.SetStatY(statYdef)
 
 	# canvas draw
 	c_resU_Det.Draw()
-	c_resU_Det.SaveAs(plots_dir + "U_res.png")
+	c_resU_Det.SaveAs(plots_dir + "U_res.pdf")
 
 	c_resUvsU_Det.Draw()
 	c_resUvsV_Det.Draw()
-	c_resUvsU_Det.SaveAs(plots_dir + "UvsU_det_res.png")
-	c_resUvsV_Det.SaveAs(plots_dir + "UvsV_det_res.png")
+	c_resUvsU_Det.SaveAs(plots_dir + "UvsU_det_res.pdf")
+	c_resUvsV_Det.SaveAs(plots_dir + "UvsV_det_res.pdf")
 
 	c_resUvsSlpX_Det.Draw()
 	c_resUvsSlpY_Det.Draw()
-	c_resUvsSlpX_Det.SaveAs(plots_dir + "UvsSlpX_det_res.png")
-	c_resUvsSlpY_Det.SaveAs(plots_dir + "UvsSlpY_det_res.png")
+	c_resUvsSlpX_Det.SaveAs(plots_dir + "UvsSlpX_det_res.pdf")
+	c_resUvsSlpY_Det.SaveAs(plots_dir + "UvsSlpY_det_res.pdf")
 
 	c_residuals_DUT = TCanvas("XY_sigma_in_DUTs", "XY_sigma_in_DUTs", 1280, 800)
 	c_residuals_DUT.Divide(2,2)
@@ -2490,7 +2489,7 @@ if not batchFlag :
 	residualY_long.SetXTitle("Y (cm)")
 	residualY_long.Draw()
 	# residualY_long.Fit("gaus","R")
-	c_residuals_DUT.SaveAs(plots_dir + "sigmas_DUT.png")
+	c_residuals_DUT.SaveAs(plots_dir + "sigmas_DUT.pdf")
 
 	c_tdc_hit_cor = TCanvas("Hits_correlation","Hits_correlation", 1280, 800)
 	c_tdc_hit_cor.Divide(4,2)
@@ -2550,7 +2549,7 @@ if not batchFlag :
 	stTDC_scin_2_hits_SiPM_up_down.SetY1NDC(0.7)
 	stTDC_scin_2_hits_SiPM_up_down.SetY2NDC(0.9)
 	gPad.Update()
-	c_tdc_hit_cor.SaveAs(plots_dir + "hits_cor.png")
+	c_tdc_hit_cor.SaveAs(plots_dir + "hits_cor.pdf")
 
 #	raw_input("Press any key to continue\n")
 
