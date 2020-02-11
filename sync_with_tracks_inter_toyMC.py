@@ -1737,9 +1737,16 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			   
 			if ((nt00>1) and (nt08==1)) :
 				if advVshapeFit:
-					bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametricMod(Ytrak[4],parS),distSigma)
+					if sigmaTest:
+						bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametricMod(Ytrak[4],parS),distSigma)
+					else:
+						bestPoints = 0
 				else:
-					bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametric(Ytrak[4],parS),distSigma)
+					if sigmaTest:
+						bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametric(Ytrak[4],parS),distSigma)
+					else:
+						bestPoints = 0
+					
 				if len(bestPoints) < 1: continue
 				if len(bestPoints) > 1: N_passed_2nd_hits += len(bestPoints) - 1
 				XYboth.Fill(Xtrak[4],Ytrak[4])
@@ -1808,9 +1815,15 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 
 			if ((nt01>1) and (nt08==1)) :
 				if advVshapeFit:
-					bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametricMod(Ytrak[5],parL),distSigma)
+					if sigmaTest:
+						bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametricMod(Ytrak[5],parL),distSigma)
+					else:
+						bestPoints = 0
 				else:
-					bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametric(Ytrak[5],parL),distSigma)
+					if sigmaTest:
+						bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametric(Ytrak[5],parL),distSigma)
+					else:
+						bestPoints = 0
 				if len(bestPoints) < 1: continue
 				XYboth_long.Fill(Xtrak[5],Ytrak[5])
 				passed_tracks_long.Fill(Ytrak[5])
