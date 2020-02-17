@@ -1740,12 +1740,12 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					if sigmaTest:
 						bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametricMod(Ytrak[4],parS),distSigma)
 					else:
-						bestPoints = 0
+						bestPoints = [0]
 				else:
 					if sigmaTest:
 						bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametric(Ytrak[4],parS),distSigma)
 					else:
-						bestPoints = 0
+						bestPoints = [0]
 					
 				if len(bestPoints) < 1: continue
 				if len(bestPoints) > 1: N_passed_2nd_hits += len(bestPoints) - 1
@@ -1818,12 +1818,12 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					if sigmaTest:
 						bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametricMod(Ytrak[5],parL),distSigma)
 					else:
-						bestPoints = 0
+						bestPoints = [0]
 				else:
 					if sigmaTest:
 						bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametric(Ytrak[5],parL),distSigma)
 					else:
-						bestPoints = 0
+						bestPoints = [0]
 				if len(bestPoints) < 1: continue
 				XYboth_long.Fill(Xtrak[5],Ytrak[5])
 				passed_tracks_long.Fill(Ytrak[5])
@@ -2138,6 +2138,8 @@ if not batchFlag :
 	TDC_dif_trk_long.Draw()
 	C_tdc_long.SaveAs(plots_dir + "tdc_long.pdf")
 
+	gStyle.SetStatX(0.65)
+	gStyle.SetStatY(0.9)
 	C_t =  TCanvas("C_t", "C_t",1280,800)
 	C_t.Divide(2,2)
 	C_t.cd(1)
