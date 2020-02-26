@@ -574,13 +574,13 @@ tot_tracks = TH1F("Short_straw_all_tracks", "Short_straw_all_tracks", 250, -1.5,
 tot_tracks_long = TH1F("Long_straw_all_tracks", "Long_straw_all_tracks", 300, -1.5, 1.5)
 
 if not binSizeFlag:
-	resolutionS = TH2F("Resolution_short", "Resolution_short", 200, -1., 1., 100, -0.5, 0.5)
+	resolutionS = TH2F("Resolution_short", "Resolution_short", 200, -1., 1., 180, -0.9, 0.9)
 	if enableToyMC:
-		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", 200, -1., 1., 100, -0.5, 0.5)
+		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", 200, -1., 1., 180, -0.9, 0.9)
 else:
-	resolutionS = TH2F("Resolution_short", "Resolution_short", int(2.0/(0.0001*float(sys.argv[4]))), -1., 1., 1000, -0.5, 0.5)
+	resolutionS = TH2F("Resolution_short", "Resolution_short", int(2.0/(0.0001*float(sys.argv[4]))), -1., 1., 1000, -0.9, 0.9)
 	if enableToyMC:
-		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", int(2.0/(0.0001*float(sys.argv[4]))), -1., 1., 1000, -0.5, 0.5)
+		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", int(2.0/(0.0001*float(sys.argv[4]))), -1., 1., 1000, -0.9, 0.9)
 resolutionL = TH2F("Resolution_long", "Resolution_long", 300, -1.5, 1.5, 60, -0.3, 0.3)
 if enableToyMC:
 	resolutionL_toy = TH2F("Resolution_long_toy", "Resolution_long_toyMC", 300, -1.5, 1.5, 60, -0.3, 0.3)
@@ -1937,9 +1937,9 @@ if noiseRedFlag :
 	resolution_slices_long = TObjArray()
 	resolution_slices_long_toy = TObjArray()
 	
-	gf = TF1("gf", "gaus", -0.3, 0.3)
+	gf = TF1("gf", "gaus", -0.8, 0.8)
 	gf.SetParLimits(0,5,5000)
-	gf.SetParLimits(1,-0.2,0.2)
+	gf.SetParLimits(1,-0.8,0.8)
 	gf.SetParLimits(2,0.001,0.1)
 	gf.SetParameter(0,500.)
 	gf.SetParameter(1,0.0001)
