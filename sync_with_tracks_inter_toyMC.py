@@ -574,13 +574,13 @@ tot_tracks = TH1F("Short_straw_all_tracks", "Short_straw_all_tracks", 250, -1.5,
 tot_tracks_long = TH1F("Long_straw_all_tracks", "Long_straw_all_tracks", 300, -1.5, 1.5)
 
 if not binSizeFlag:
-	resolutionS = TH2F("Resolution_short", "Resolution_short", 250, -1.5, 1.5, 50, -0.3, 0.3)
+	resolutionS = TH2F("Resolution_short", "Resolution_short", 200, -1., 1., 100, -0.5, 0.5)
 	if enableToyMC:
-		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", 250, -1.5, 1.5, 50, -0.3, 0.3)
+		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", 200, -1., 1., 100, -0.5, 0.5)
 else:
-	resolutionS = TH2F("Resolution_short", "Resolution_short", int(3.0/(0.0001*float(sys.argv[4]))), -1.5, 1.5, 1000, -0.3, 0.3)
+	resolutionS = TH2F("Resolution_short", "Resolution_short", int(2.0/(0.0001*float(sys.argv[4]))), -1., 1., 1000, -0.5, 0.5)
 	if enableToyMC:
-		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", int(3.0/(0.0001*float(sys.argv[4]))), -1.5, 1.5, 1000, -0.3, 0.3)
+		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", int(2.0/(0.0001*float(sys.argv[4]))), -1., 1., 1000, -0.5, 0.5)
 resolutionL = TH2F("Resolution_long", "Resolution_long", 300, -1.5, 1.5, 60, -0.3, 0.3)
 if enableToyMC:
 	resolutionL_toy = TH2F("Resolution_long_toy", "Resolution_long_toyMC", 300, -1.5, 1.5, 60, -0.3, 0.3)
