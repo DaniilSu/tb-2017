@@ -1937,9 +1937,9 @@ if noiseRedFlag :
 	resolution_slices_long = TObjArray()
 	resolution_slices_long_toy = TObjArray()
 	
-	gf = TF1("gf", "gaus", -0.8, 0.8)
+	gf = TF1("gf", "gaus", -0.9, 0.9)
 	gf.SetParLimits(0,5,5000)
-	gf.SetParLimits(1,-0.8,0.8)
+	gf.SetParLimits(1,-0.9,0.9)
 	gf.SetParLimits(2,0.001,0.1)
 	gf.SetParameter(0,500.)
 	gf.SetParameter(1,0.0001)
