@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../test.py">
-   </FileRef>
-   <FileRef
-      location = "group:../test.cxx">
-   </FileRef>
-   <FileRef
       location = "self:SST test beam 2017 analysis.xcodeproj">
    </FileRef>
 </Workspace>

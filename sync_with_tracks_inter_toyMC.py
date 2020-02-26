@@ -545,7 +545,7 @@ TDC_dif_raw_long =  TH1F("TDC_straw_minus_tim_raw_long" , "TDC_straw_minus_tim_r
 TDC_str_trk_long =  TH1F("TDC_straw_trk_long"           , "TDC_straw_trk_long"           , 600, minTDC_raw, maxTDC_raw ) # ns
 TDC_dif_trk_long =  TH1F("TDC_straw_minus_tim_trk_long" , "TDC_straw_minus_tim_trk_long" , 500, -100.0,  700.0 ) # ns
 
-if binSizeFlag:
+if not binSizeFlag:
 	VshapeX =  TH2F("VshapeX" , "VshapeX" , 833, -5.0, 5.0, 500, minTDC,  maxTDC_S )
 	VshapeY =  TH2F("VshapeY" , "VshapeY" , 200, -1.2, 1.2, 500, minTDC,  maxTDC_S )
 	VshapeY_SiPM_up = TH2F("VshapeY_uSiPMs" , "VshapeY_uSiPMs" , 200, -1.2, 1.2, 500, minTDC,  maxTDC_S )
@@ -639,7 +639,7 @@ sigmaTest = False
 
 # ntrk test flag
 
-ntrkFlag = True
+ntrkFlag = False
 
 # declare the histograms for residual calculations
 
@@ -2138,7 +2138,7 @@ if not batchFlag :
 	TDC_dif_trk_long.Draw()
 	C_tdc_long.SaveAs(plots_dir + "tdc_long.pdf")
 
-	gStyle.SetStatX(0.65)
+	gStyle.SetStatX(0.6)
 	gStyle.SetStatY(0.9)
 	C_t =  TCanvas("C_t", "C_t",1280,800)
 	C_t.Divide(2,2)
