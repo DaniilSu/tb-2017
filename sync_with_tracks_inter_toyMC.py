@@ -364,6 +364,20 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 	coord = []
 	dtime = []
 	errordtime = []
+	max_nentries = 0
+	
+	while (bin+ngroup-1<=lastbin) :
+		if (onX) :
+  			hp = vshape.ProjectionX("_temp",bin,bin+ngroup-1,"e")
+  		else :
+  			hp = vshape.ProjectionY("_temp",bin,bin+ngroup-1,"e")
+		if (hp == 0) :
+			bin += nstep
+			continue
+		nentries = hp.GetEntries()
+		if nentries > max_nentries:
+			max_nentries = nentries
+		del hp
 
 	while (bin+ngroup-1<=lastbin) :
 		if (onX) :
@@ -375,7 +389,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 			continue
   		nentries = hp.GetEntries()
   		kurt = hp.GetKurtosis()
-  		if (nentries == 0 or nentries < cut or hp.GetMaximum() < cut) :
+  		if (nentries == 0 or nentries < cut):
   			bin += nstep
   			del hp
   			continue
@@ -384,10 +398,17 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 			bin += nstep
 			del hp
 			continue
+			
+		if nentries/(1.0*max_nentries) < 0.2:
+			bin += nstep
+			del hp
+			continue
 
 #		hp.Rebin(3)
+		hp.Sumw2()
 		binmax = hp.GetMaximumBin()
 		hp.GetXaxis().SetRange(binmax-3,binmax+3)
+		hp.Sumw2()
 		xmax = hp.GetMean()
 		errorBinmax = hp.GetMeanError()
 #		errorBinmax = hp.GetBinError(binmax)
@@ -863,8 +884,8 @@ def improveNoiseMod(dirname, vshf, nRun, tracks_RMS, binSize=None, stat_fraction
 	parL = array('d',7 * [0])
 	parSerr = array('d',7 * [0])
 	parLerr = array('d',7 * [0])
-	[coordS,dtimeS,errordtimeS] = FitSlicesFindBinMax(VshapeY, False, VshapeY.GetXaxis().GetFirst(), VshapeY.GetXaxis().GetLast(),4,"QNR") # 12
-	[coordL,dtimeL,errordtimeL] = FitSlicesFindBinMax(VshapeY_long, False, VshapeY_long.GetXaxis().GetFirst(),VshapeY_long.GetXaxis().GetLast(),5,"QNR") # 14
+	[coordS,dtimeS,errordtimeS] = FitSlicesFindBinMax(VshapeY, False, VshapeY.GetXaxis().GetFirst(), VshapeY.GetXaxis().GetLast(),12,"QNR") # 12 4
+	[coordL,dtimeL,errordtimeL] = FitSlicesFindBinMax(VshapeY_long, False, VshapeY_long.GetXaxis().GetFirst(),VshapeY_long.GetXaxis().GetLast(),14,"QNR") # 14 5
 	errorcoordS = array('d',len(coordS)*[tracks_RMS[0]])
 	errorcoordL = array('d',len(coordL)*[tracks_RMS[1]])
 	print "Straw tube borders: %f .. %f" % (coordS[0], coordS[-1])
