@@ -880,8 +880,8 @@ def improveNoiseMod(dirname, vshf, nRun, tracks_RMS, binSize=None, stat_fraction
 	parL = array('d',7 * [0])
 	parSerr = array('d',7 * [0])
 	parLerr = array('d',7 * [0])
-	[coordS,dtimeS,errordtimeS] = FitSlicesFindBinMax(VshapeY, False, VshapeY.GetXaxis().GetFirst(), VshapeY.GetXaxis().GetLast(),12,"QNR") # 12 4
-	[coordL,dtimeL,errordtimeL] = FitSlicesFindBinMax(VshapeY_long, False, VshapeY_long.GetXaxis().GetFirst(),VshapeY_long.GetXaxis().GetLast(),14,"QNR") # 14 5
+	[coordS,dtimeS,errordtimeS] = FitSlicesFindBinMax(VshapeY, False, VshapeY.GetXaxis().GetFirst(), VshapeY.GetXaxis().GetLast(),4,"QNR") # 12 4 10
+	[coordL,dtimeL,errordtimeL] = FitSlicesFindBinMax(VshapeY_long, False, VshapeY_long.GetXaxis().GetFirst(),VshapeY_long.GetXaxis().GetLast(),5,"QNR") # 14 5 12
 	errorcoordS = array('d',len(coordS)*[tracks_RMS[0]])
 	errorcoordL = array('d',len(coordL)*[tracks_RMS[1]])
 	print "Straw tube borders: %f .. %f" % (coordS[0], coordS[-1])
