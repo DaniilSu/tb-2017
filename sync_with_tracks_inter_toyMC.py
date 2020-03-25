@@ -380,6 +380,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 		if nentries > max_nentries:
 			max_nentries = nentries
 		del hp
+		bin += nstep
 	
 	while (bin+ngroup-1<=lastbin) :
 		if (onX) :
