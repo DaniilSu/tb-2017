@@ -2454,7 +2454,7 @@ if not batchFlag :
 	c_resUvsSlpY_Det.Divide(4,2)
 	
 	for iDet in range(nDets):
-	c_resU_Det.cd(iDet+1)
+		c_resU_Det.cd(iDet+1)
 		resU_Det[iDet].Draw()
 		resU_Det[iDet].Fit("gaus","R")
 		
