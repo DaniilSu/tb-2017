@@ -382,6 +382,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 		del hp
 		bin += nstep
 	
+	print "Max entries: ", max_nentries
 	while (bin+ngroup-1<=lastbin) :
 		if (onX) :
 			hp = vshape.ProjectionX("_temp",bin,bin+ngroup-1,"e")
@@ -392,6 +393,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 			continue
 		nentries = hp.GetEntries()
 		kurt = hp.GetKurtosis()
+		print "111111!!!!!!!!!!!!!!!!!!!!!!!"
 		if (nentries == 0 or nentries < cut or kurt < 0 or nentries/(1.0*max_nentries) < 0.2):
 			print "discarded coordinate: ", hp.GetBinCenter(bin)
 			bin += nstep
@@ -811,8 +813,8 @@ def improveNoise(dirname, vshf, tracks_RMS, parRef=None):
 	parL = array('d',3 * [0])
 	parSerr = array('d',3 * [0])
 	parLerr = array('d',3 * [0])
-	[coordS,dtimeS,errordtimeS] = FitSlicesFindBinMax(VshapeY, False, VshapeY.GetXaxis().GetFirst(), VshapeY.GetXaxis().GetLast(),10,"QNR") #8
-	[coordL,dtimeL,errordtimeL] = FitSlicesFindBinMax(VshapeY_long, False, VshapeY_long.GetXaxis().GetFirst(),VshapeY_long.GetXaxis().GetLast(),12,"QNR") #10
+	[coordS,dtimeS,errordtimeS] = FitSlicesFindBinMax(VshapeY, False, VshapeY.GetXaxis().GetFirst(), VshapeY.GetXaxis().GetLast(),4,"QNR") #8 10
+	[coordL,dtimeL,errordtimeL] = FitSlicesFindBinMax(VshapeY_long, False, VshapeY_long.GetXaxis().GetFirst(),VshapeY_long.GetXaxis().GetLast(),5,"QNR") #10 12
 	errorcoordS = array('d',len(coordS)*[tracks_RMS[0]])
 	errorcoordL = array('d',len(coordL)*[tracks_RMS[1]])
 	pfS = TF1("pfS", "[0]*(x-[1])**2+[2]", coordS[0], coordS[-1])
