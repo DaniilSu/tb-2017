@@ -123,23 +123,23 @@ def interpolatePoints(coord,dtime,errorcoord,errordtime,apex):
 	dtime = [float(Decimal("%.4f" % e)) for e in dtime]
 	f_left = interp1d(sorted(dtime[indexDiv:]),sorted(coord[indexDiv:]),kind='slinear')
 	f_right = interp1d(sorted(dtime[:indexDiv]),sorted(coord[:indexDiv],reverse=True),kind='slinear')
-#	dtime_precise_left = insertInBetween(insertInBetween(insertInBetween(sorted(dtime[indexDiv:]))))
-#	dtime_precise_right = insertInBetween(insertInBetween(insertInBetween(sorted(dtime[:indexDiv]))))
+	#dtime_precise_left = insertInBetween(insertInBetween(insertInBetween(sorted(dtime[indexDiv:]))))
+	#dtime_precise_right = insertInBetween(insertInBetween(insertInBetween(sorted(dtime[:indexDiv]))))
 	print dtime[indexDiv:]
-#	plt.plot(sorted(dtime[indexDiv:]), sorted(coord[indexDiv:]), 'o')
-#	plt.plot(dtime_precise_left, f_left(dtime_precise_left), '-')
-#	plt.legend(['data', 'linear'], loc='best')
-#	plt.xlabel('drift time (ns)')
-#	plt.ylabel('Y (cm)')
-#	plt.title('Left branch of the V-shape')
-#	plt.show()
-#	plt.plot(sorted(dtime[:indexDiv]), sorted(coord[:indexDiv],reverse=True), 'o')
-#	plt.plot(dtime_precise_right, f_right(dtime_precise_right), '-')
-#	plt.legend(['data', 'linear'], loc='best')
-#	plt.xlabel('drift time (ns)')
-#	plt.ylabel('Y (cm)')
-#	plt.title('Right branch of the V-shape')
-#	plt.show()
+	#plt.plot(sorted(dtime[indexDiv:]), sorted(coord[indexDiv:]), 'o')
+	#plt.plot(dtime_precise_left, f_left(dtime_precise_left), '-')
+	#plt.legend(['data', 'linear'], loc='best')
+	#plt.xlabel('drift time (ns)')
+	#plt.ylabel('Y (cm)')
+	#plt.title('Left branch of the V-shape')
+	#plt.show()
+	#plt.plot(sorted(dtime[:indexDiv]), sorted(coord[:indexDiv],reverse=True), 'o')
+	#plt.plot(dtime_precise_right, f_right(dtime_precise_right), '-')
+	#plt.legend(['data', 'linear'], loc='best')
+	#plt.xlabel('drift time (ns)')
+	#plt.ylabel('Y (cm)')
+	#plt.title('Right branch of the V-shape')
+	#plt.show()
 	top_dtime=sorted(dtime[indexDiv:])
 	bot_dtime=sorted(dtime[:indexDiv])
 	return f_left, f_right, dtime[indexDiv], dtime[indexDiv-1], top_dtime[-1], bot_dtime[-1]
@@ -155,26 +155,26 @@ def findInverseFunc(coord,dtime,errorcoord,errordtime,apex) :
 	gre1.Fit(pf1,"WWQNR")
 	pf1.GetParameters(par1)
 	gre1.Fit(pf1,"QNR")
-#	a = TCanvas()
-#	gre1.SetMarkerColor(kBlue)
-#	gre1.SetMarkerStyle(21)
-#	gre1.GetXaxis().SetTitle("t_{drift} (ns)")
-#	gre1.GetYaxis().SetTitle("Y (cm)")
-#	gre1.SetTitle("Left branch of the V-shape")
-#	gre1.Draw("AP")
-#	a.SaveAs("top_branch_old.pdf")
+	#a = TCanvas()
+	#gre1.SetMarkerColor(kBlue)
+	#gre1.SetMarkerStyle(21)
+	#gre1.GetXaxis().SetTitle("t_{drift} (ns)")
+	#gre1.GetYaxis().SetTitle("Y (cm)")
+	#gre1.SetTitle("Left branch of the V-shape")
+	#gre1.Draw("AP")
+	#a.SaveAs("top_branch_old.pdf")
 	gre2.Fit(pf2,"WWQNR")
 	pf2.GetParameters(par2)
 	gre2.Fit(pf2,"QNR")
-#	b = TCanvas()
-#	gre2.SetMarkerColor(kRed)
-#	gre2.SetMarkerStyle(22)
-#	gre2.GetXaxis().SetTitle("t_{drift} (ns)")
-#	gre2.GetYaxis().SetTitle("Y (cm)")
-#	gre2.SetTitle("Right branch of the V-shape")
-#	gre2.Draw("AP")
-#	b.SaveAs("bottom_branch_old.pdf")
-#	raw_input("Press any key to continue\n")
+	#b = TCanvas()
+	#gre2.SetMarkerColor(kRed)
+	#gre2.SetMarkerStyle(22)
+	#gre2.GetXaxis().SetTitle("t_{drift} (ns)")
+	#gre2.GetYaxis().SetTitle("Y (cm)")
+	#gre2.SetTitle("Right branch of the V-shape")
+	#gre2.Draw("AP")
+	#b.SaveAs("bottom_branch_old.pdf")
+	#raw_input("Press any key to continue\n")
 	pf1.GetParameters(par1)
 	pf2.GetParameters(par2)
 	return par1, par2, dtime[indexDiv], dtime[indexDiv-1]
@@ -203,7 +203,7 @@ def chooseTheBest(nt, tt, tt08, vshapeVal, sigma=None) :
 def FindRMSofSlices(input_histo, onX, firstbin, lastbin, cut, option, arr=None):
 	outerAxis = input_histo.GetYaxis() if onX else input_histo.GetXaxis()
 	innerAxis = input_histo.GetXaxis() if onX else input_histo.GetYaxis()
-
+	
 	nbins  = outerAxis.GetNbins()
 	if (firstbin < 0): firstbin = 0
 	if (lastbin < 0 or lastbin > nbins + 1): lastbin = nbins + 1
@@ -235,7 +235,7 @@ def FindRMSofSlices(input_histo, onX, firstbin, lastbin, cut, option, arr=None):
 	if (arr):
 		arr.SetOwner()
 		arr.Expand(npar)
-		
+	
 	#Create one histogram for each function parameter
 	name   = '\0' * 2000
 	title  = '\0' * 2000
@@ -247,7 +247,7 @@ def FindRMSofSlices(input_histo, onX, firstbin, lastbin, cut, option, arr=None):
 	else:
 		hlist = TH1D(name,title, nbins, bins.fArray)
 	hlist.GetXaxis().SetTitle(outerAxis.GetTitle())
-		
+	
 	#Loop on all bins in Y, generate a projection along X
 	# in case of sliding merge nstep=1, i.e. do slices starting for every bin
 	# now do not slices case with overflow (makes more sense)
@@ -258,13 +258,14 @@ def FindRMSofSlices(input_histo, onX, firstbin, lastbin, cut, option, arr=None):
 			hp = input_histo.ProjectionY("_temp",bin,bin+ngroup-1,"e")
 		if (hp == 0): continue
 		nentries = hp.GetEntries()
- 		if (nentries == 0 or nentries < cut):
- 			del hp
- 			continue
+		if (nentries == 0 or nentries < cut):
+			del hp
+			continue
 		binOn = bin + ngroup/2
 		hlist.Fill(outerAxis.GetBinCenter(binOn),hp.GetRMS())
 		hlist.SetBinError(binOn,hp.GetRMSError())
- 		del hp
+		del hp
+	
 	if (arr):
 		arr = hlist
 		return arr
@@ -274,7 +275,7 @@ def FindRMSofSlices(input_histo, onX, firstbin, lastbin, cut, option, arr=None):
 def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 	outerAxis = vshape.GetYaxis() if onX else vshape.GetXaxis()
 	innerAxis = vshape.GetXaxis() if onX else vshape.GetYaxis()
-
+	
 	nbins  = outerAxis.GetNbins()
 	if (firstbin < 0):
 		firstbin = 0
@@ -283,7 +284,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 	if (lastbin < firstbin) :
 		firstbin = 0
 		lastbin = nbins + 1
-
+	
 	opt = TString(option)
 	opt.ToLower()
 	ngroup = 1
@@ -299,7 +300,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 	if (opt.Contains("g5")) :
 		ngroup = 5
 		opt.ReplaceAll("g5","")
-
+	
 	# implement option S sliding merge for each bin using in conjunction with a given Gn
 	nstep = ngroup
 	if (opt.Contains("s")):
@@ -311,11 +312,11 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 	# f3 = TF1("double_gaus", "gaus(0) + gaus(3)",innerAxis.GetXmin()+3.5,innerAxis.GetXmax()-3.5)
 	# f1.SetRange(innerAxis.GetXmin()+3.5,0.)
 	# f2.SetRange(0.,innerAxis.GetXmax()-3.5)
-
+	
 	# npar = f1.GetNpar() + f2.GetNpar()
 	# if (npar <= 0):
-	#	return
-
+		#	return
+		
 	# parsavef1 = array('d',f1.GetNpar() * [0])
 	# parsavef2 = array('d',f2.GetNpar() * [0])
 	# parsavef3 = array('d',npar * [0])
@@ -329,7 +330,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 		
 		
 	# Create one histogram for each function parameter
-
+	
 	#	hlist = npar * [0]
 	#	bins = outerAxis.GetXbins()
 	#	for ipar in xrange(npar) :
@@ -344,7 +345,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 	#		hlist[ipar].GetXaxis().SetTitle(outerAxis.GetTitle())
 	#		if (arr) :
 	#			arr.AddAt(hlist[ipar],ipar)
-
+	
 	#	name = "%s_chi2" % vshape.GetName()
 	#	# del gDirectory.FindObject(name)
 	#	hchi2 = 0
@@ -356,10 +357,11 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 	#	hchi2.GetXaxis().SetTitle(outerAxis.GetTitle())
 	#	if (arr) :
 	#		arr.AddAt(hchi2,npar)
-
+	
 	# Loop on all bins in Y, generate a projection along X
 	# in case of sliding merge nstep=1, i.e. do slices starting for every bin
 	# now do not slices case with overflow (makes more sense)
+	
 	bin = firstbin
 	coord = []
 	dtime = []
@@ -368,9 +370,9 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 	
 	while (bin+ngroup-1<=lastbin) :
 		if (onX) :
-  			hp = vshape.ProjectionX("_temp",bin,bin+ngroup-1,"e")
-  		else :
-  			hp = vshape.ProjectionY("_temp",bin,bin+ngroup-1,"e")
+			hp = vshape.ProjectionX("_temp",bin,bin+ngroup-1,"e")
+		else :
+			hp = vshape.ProjectionY("_temp",bin,bin+ngroup-1,"e")
 		if (hp == 0) :
 			bin += nstep
 			continue
@@ -378,45 +380,36 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 		if nentries > max_nentries:
 			max_nentries = nentries
 		del hp
-
+	
 	while (bin+ngroup-1<=lastbin) :
 		if (onX) :
-  			hp = vshape.ProjectionX("_temp",bin,bin+ngroup-1,"e")
-  		else :
-  			hp = vshape.ProjectionY("_temp",bin,bin+ngroup-1,"e")
+			hp = vshape.ProjectionX("_temp",bin,bin+ngroup-1,"e")
+		else :
+			hp = vshape.ProjectionY("_temp",bin,bin+ngroup-1,"e")
 		if (hp == 0) :
 			bin += nstep
 			continue
-  		nentries = hp.GetEntries()
-  		kurt = hp.GetKurtosis()
-  		if (nentries == 0 or nentries < cut):
-  			bin += nstep
-  			del hp
-  			continue
-
-		if kurt < 0:
+		nentries = hp.GetEntries()
+		kurt = hp.GetKurtosis()
+		if (nentries == 0 or nentries < cut or kurt < 0 or nentries/(1.0*max_nentries) < 0.2):
+			print "discarded coordinate: ", hp.GetBinCenter(bin)
 			bin += nstep
 			del hp
 			continue
-			
-		if nentries/(1.0*max_nentries) < 0.2:
-			bin += nstep
-			del hp
-			continue
-
-#		hp.Rebin(3)
+		
+		#hp.Rebin(3)
 		hp.Sumw2()
 		binmax = hp.GetMaximumBin()
 		hp.GetXaxis().SetRange(binmax-3,binmax+3)
 		hp.Sumw2()
 		xmax = hp.GetMean()
 		errorBinmax = hp.GetMeanError()
-#		errorBinmax = hp.GetBinError(binmax)
-#		xmax = hp.GetXaxis().GetBinCenter(binmax)
+		#errorBinmax = hp.GetBinError(binmax)
+		#xmax = hp.GetXaxis().GetBinCenter(binmax)
 		dtime.append(xmax)
 		coord.append(outerAxis.GetBinCenter(bin))
 		errordtime.append(errorBinmax)
-
+		
 		#		hp_first = hp.Clone()
 		#		hp_second = hp.Clone()
 		#		hp_first.SetAxisRange(hp_first.GetMinimum(),0.0)
@@ -430,9 +423,9 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 		#		hp_first.Draw()
 		#		hp_second.Draw()
 		#		raw_input("Press any key to continue\n")
-
+		
 		# f1.SetParameters(parsavef1)
-  		# f2.SetParameters(parsavef2)
+		# f2.SetParameters(parsavef2)
 		#  		f1.SetParameter(0, 100.)
 		#  		f2.SetParameter(0, 100.)
 		#  		f1.SetParameter(1, xmax_first)
@@ -485,12 +478,12 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 		#
 		del hp
 		bin += nstep
-
+	
 	return [coord, dtime, errordtime]
-		#		print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-		#
-		#	if arr :
-		#		return arr
+	#print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	#
+	#if arr :
+	#	return arr
 
 
 # Usage
@@ -676,10 +669,10 @@ resUvsSlpY_Det = nDets * [0]
 
 for iDet in range(nDets):
 	resU_Det[iDet] = TH1F("resU"+"_Det"+str(iDet), "U_residual_on"+"_Det"+str(iDet), 40, -0.1, 0.1)
-
+	
 	resUvsU_Det[iDet] = TH2F("resUvsU"+"_Det"+str(iDet), "U_residual_vs_U_on"+"_Det"+str(iDet), 40, -5, 5, 40, -0.1, 0.1)
 	resUvsV_Det[iDet] = TH2F("resUvsV"+"_Det"+str(iDet), "U_residual_vs_V_on"+"_Det"+str(iDet), 40, -5, 5, 40, -0.1, 0.1)
-
+	
 	resUvsSlpX_Det[iDet] = TH2F("resUvsSlpX"+"_Det"+str(iDet), "U_residual_vs_SlpX_on"+"_Det"+str(iDet), 40, -.5, .5, 40, -0.1, 0.1)
 	resUvsSlpY_Det[iDet] = TH2F("resUvsSlpY"+"_Det"+str(iDet), "U_residual_vs_SlpY_on"+"_Det"+str(iDet), 40, -.5, .5, 40, -0.1, 0.1)
 
@@ -785,7 +778,7 @@ if noiseRedFlag:
 		f.readline()
 		apexL = map(float, (f.readline()).split())
 	f.close()
-
+	
 	if advVshapeFit:
 		if not binSizeFlag:
 			f2S = open("outputfiles/" + "points_short_" + sys.argv[3] + ".dat", "r")
@@ -796,11 +789,11 @@ if noiseRedFlag:
 		f2L = open("outputfiles/" + "points_long_" + sys.argv[3] + ".dat", "r")
 		coordL,dtimeL,errorcoordL,errordtimeL = np.loadtxt(f2L, skiprows=1, unpack=True)
 		f2L.close()
-#		parSinvTop, parSinvBot, SinvTopMin, SinvBotMin = findInverseFunc(coordS,dtimeS,errorcoordS,errordtimeS,apexS)
-#		parLinvTop, parLinvBot, LinvTopMin, LinvBotMin = findInverseFunc(coordL,dtimeL,errorcoordL,errordtimeL,apexL)
+		#parSinvTop, parSinvBot, SinvTopMin, SinvBotMin = findInverseFunc(coordS,dtimeS,errorcoordS,errordtimeS,apexS)
+		#parLinvTop, parLinvBot, LinvTopMin, LinvBotMin = findInverseFunc(coordL,dtimeL,errorcoordL,errordtimeL,apexL)
 		fSinterTop, fSinterBot, SinterTopMin, SinterBotMin, SinterTopMax, SinterBotMax = interpolatePoints(coordS,dtimeS,errorcoordS,errordtimeS,apexS)
 		fLinterTop, fLinterBot, LinterTopMin, LinterBotMin, LinterTopMax, LinterBotMax = interpolatePoints(coordL,dtimeL,errorcoordL,errordtimeL,apexL)
-
+	
 	plots_dir = plots_dir + "_noise_red/"
 	if os.path.exists(plots_dir):
 		print "Directory exists!"
@@ -1038,7 +1031,7 @@ if syncFileFlag and not loadSyncFileFlag:
 	mamba_tree.SetBranchStatus("spUPos",1)
 	mamba_tree.SetBranchStatus("spVPos",1)
 	mamba_tree.SetBranchStatus("spIsOnTrk",1)
-
+	
 	vme_tree.SetBranchStatus("*",0)
 	vme_tree.SetBranchStatus("PCclock",1)
 	vme_tree.SetBranchStatus("pattern",1)
@@ -1060,7 +1053,7 @@ if syncFileFlag and not loadSyncFileFlag:
 	vme_tree.SetBranchStatus("tt06",1)
 	vme_tree.SetBranchStatus("nt08",1)
 	vme_tree.SetBranchStatus("tt08",1)
-
+	
 	sync_mamba_tree = mamba_tree.CloneTree(0)
 	sync_vme_tree = vme_tree.CloneTree(0)
 
@@ -1214,7 +1207,7 @@ if not loadSyncFileFlag:
 				vmeTmp = k + vmeID + 1
 				if (pattern == 0):
 					break
-
+			
 			vmeID = vmeTmp
 		
 		TDCtrig = vme_tree.TDCtrig
@@ -1230,13 +1223,13 @@ if not loadSyncFileFlag:
 			print 'vme_missed_event upped to %d' % vme_missed_event
 			print 'i     vmeID    packID       TDCtrig  time_us_i  TDCstamp_i  tsDiff'
 			print '%d    %d       %d           %f       %f         %f          %f' % (i, vmeID, packID, TDCtrig, time_us_i, TDCstamp_i, tsDiff)
-
+		
 		if (tsDiff> tsDiffCut) :
 			vme_missed_event -= 1
 			print 'vme_missed_event downed to %d' % vme_missed_event
 			print 'i     vmeID    packID       TDCtrig  time_us_i  TDCstamp_i  tsDiff'
 			print '%d    %d       %d           %f       %f         %f          %f' % (i, vmeID, packID, TDCtrig, time_us_i, TDCstamp_i, tsDiff)
-
+		
 		if (abs(tsDiff - tsDiff_old) < 50) :
 			mambaTmp = i+1
 			break
@@ -1282,7 +1275,7 @@ YCov = np.zeros((2, 2))
 r = TRandom3()
 
 for iEvt in xrange(n_mamba_events-mambaTmp):
-
+	
 	if abs(vme_missed_event) > 100000:
 		break
 	
@@ -1292,15 +1285,15 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 	if (iEvt + mambaTmp + 1) % 100 == 0:
 		sys.stdout.write("Processing event:\t" + str(iEvt + mambaTmp +1)+ "\r" )
 		sys.stdout.flush()
-
+	
 	TDCtrig_old = TDCtrig
 	packID_old = packID
 	mamba_tree.GetEntry(iEvt + mambaTmp)
 	packID = mamba_tree.nevent
 	packID_diff = packID - packID_old
-
+	
 	# clock
-
+	
 	vmeID = vmeTmp + packID_diff - vme_missed_event
 	vme_tree.GetEntry(vmeID)
 	if not loadSyncFileFlag:
@@ -1312,28 +1305,28 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				vmeTmp = k + vmeID + 1
 				if (pattern == 0):
 					break
-
+			
 			vmeID = vmeTmp
-
+		
 		vmeTmp = vmeID + vme_missed_event
-
+		
 		timestamp = mamba_tree.timestamp
 		PCclock = vme_tree.PCclock
 		TDCtrig = vme_tree.TDCtrig
-
+		
 		PCclock_i = PCclock - PCclock_0
 		timestamp_iEvt = timestamp - timestamp_0
 		time_ms_i = timestamp_iEvt * improvefactor/slope
 		time_us_i = timestamp_iEvt * improvefactor/tslope # us means scaling to 800 ns
-
+		
 		if (TDCtrig < TDCtrig_old):
 			cycles += 1
 			print 'i = %d, TDCtrig = %f, TDCtrig_old = %f, VME cycles = %d' % (iEvt + mambaTmp, TDCtrig, TDCtrig_old, cycles)
-
+		
 		TDCstamp_i  = (TDCtrig + (cycles*max27bits) - TDCstamp_0)  # assuming one cycle is 2^27 = 134217728
 		tsdiff      =  time_ms_i - PCclock_i
 		tsDiff      =  time_us_i - TDCstamp_i
-
+		
 		if abs(tsDiff) > tsDiffCut:
 			cycles_from_ms_clock = int(PCclock_i * 1000000 / ns_per_cycle)
 			if cycles_from_ms_clock > cycles:
@@ -1342,9 +1335,9 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				TDCstamp_i  =  TDCtrig + cycles * max27bits - TDCstamp_0
 				tsdiff      =  time_ms_i - PCclock_i
 				tsDiff      =  time_us_i - TDCstamp_i
-
+		
 		# this requires a good calibration of PC clock scale vs mamba cliock scale (slope)
-
+		
 		if tsdiff< -tsdiffCut :
 			vme_missed_event += 1
 			print 'vme_missed_event upped to %d' % vme_missed_event
@@ -1352,7 +1345,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			print '%d    %d       %d        %f         %f         %f      %f     %f      %f       %f         %f          %f' % (iEvt, vmeID, packID, time_ms_i, PCclock_i, tsdiff, slope, tslope, TDCtrig, time_us_i, TDCstamp_i, tsDiff)
 			countdown -= 1
 			continue
-
+		
 		if tsdiff> tsdiffCut :
 			vme_missed_event -= 1
 			print 'vme_missed_event downed to %d' % vme_missed_event
@@ -1360,7 +1353,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			print '%d    %d       %d        %f         %f         %f      %f      %f       %f       %f         %f          %f' % (iEvt, vmeID, packID, time_ms_i, PCclock_i, tsdiff, slope, tslope, TDCtrig, time_us_i, TDCstamp_i, tsDiff)
 			countdown -= 1
 			continue
-
+		
 		if ( tsDiff< -tsDiffCut):
 			vme_missed_event += 1
 			print 'vme_missed_event upped to %d' % vme_missed_event
@@ -1368,7 +1361,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			print '%d    %d       %d        %f         %f         %f      %f     %f      %f       %f         %f          %f' % (iEvt, vmeID, packID, time_ms_i, PCclock_i, tsdiff, slope, tslope, TDCtrig, time_us_i, TDCstamp_i, tsDiff)
 			countdown -= 1
 			continue
-
+		
 		if ( tsDiff> tsDiffCut) :
 			vme_missed_event -= 1
 			print 'vme_missed_event downed to %d' % vme_missed_event
@@ -1376,7 +1369,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			print '%d    %d       %d        %f         %f         %f      %f      %f       %f       %f         %f          %f' % (iEvt, vmeID, packID, time_ms_i, PCclock_i, tsdiff, slope, tslope, TDCtrig, time_us_i, TDCstamp_i, tsDiff)
 			countdown -= 1
 			continue
-
+		
 		# make running slope
 		# make running tslope
 		if len(last_ntics_timestamp) < ntics:
@@ -1402,7 +1395,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			tslope = (improvefactor * sum_last_ntics_timestamp * 1.0 / sum_last_ntics_TDCstamp)
 			slope = (improvefactor * sum_last_ntics_timestamp / sum_last_ntics_PCclock)
 			# print 'Adjusted ms slope = ', slope
-
+				
 		Clocks.Fill(time_ms_i,PCclock_i)
 		Clockt.Fill(time_us_i,TDCstamp_i)
 		T_ms.Fill(time_ms_i)
@@ -1413,44 +1406,44 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 		TSdif2.Fill(time_ms_i , tsdiff )
 		TSDiff.Fill(tsDiff)
 		TSDif2.Fill(time_us_i , tsDiff )
-
+		
 	else :
 		vmeID = iEvt + mambaTmp
 		vme_tree.GetEntry(vmeID)
-
-
+	
+	
 	if syncFileFlag and not loadSyncFileFlag:
 		sync_mamba_tree.Fill()
 		sync_vme_tree.Fill()
-
+	
 	#tracks
-
+	
 	ntrk = mamba_tree.ntrk
-
+	
 	nt00 = vme_tree.nt00
 	nt01 = vme_tree.nt01
 	nt03 = vme_tree.nt03
 	nt04 = vme_tree.nt04
 	nt05 = vme_tree.nt05
 	nt06 = vme_tree.nt06
-
+	
 	nt08 = vme_tree.nt08
-
+	
 	tt00 = vme_tree.tt00
 	tt01 = vme_tree.tt01
 	tt03 = vme_tree.tt03
 	tt04 = vme_tree.tt04
 	tt05 = vme_tree.tt05
 	tt06 = vme_tree.tt06
-
+	
 	tt08 = vme_tree.tt08
-
+	
 	# spacepoints
 	nSP = mamba_tree.nSP
-
+	
 	k = 0
 	l = 0
-
+	
 	'''if nSP >= 6:
 		
 		spLayer = mamba_tree.spLayer
@@ -1463,7 +1456,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 		spUPos = mamba_tree.spUPos
 		spVPos = mamba_tree.spVPos
 		spIsOnTrk = mamba_tree.spIsOnTrk
-
+		
 		# intersects
 		nIntersect = mamba_tree.nIntersect
 		intLayer = mamba_tree.intLayer
@@ -1489,7 +1482,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 		
 		X_ind = 4 * [False]
 		Y_ind = 4 * [False]
-
+		
 		if nSP0 == 1 :
 			Ymeas[k] = spYPos[spLayer.index(0)]
 			Y_ind[k] = True
@@ -1522,7 +1515,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			Xmeas[l] = spXPos[spLayer.index(7)]
 			X_ind[l] = True
 			l += 1
-
+		
 		if k > 2 and l > 2 :
 			
 			good_track += 1
@@ -1545,9 +1538,9 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				Xtrak[j] = resultX[1] * X_zvals[j] + resultX[0]
 				Ytrak[j] = resultY[1] * Y_zvals[j] + resultY[0]
 				# print Ytrak '''
-
+	
 	if ntrk == 1:
-
+		
 		#tracks
 		good_track += 1
 		chi2 = mamba_tree.chi2
@@ -1566,7 +1559,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 		YCov[0][1] = mamba_tree.YCov01[0]
 		YCov[1][0] = mamba_tree.YCov10[0]
 		YCov[1][1] = mamba_tree.YCov11[0]
-
+		
 		# spacepoints
 		nSP = mamba_tree.nSP
 		spLayer = mamba_tree.spLayer
@@ -1575,7 +1568,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 		spUPos = mamba_tree.spUPos
 		spVPos = mamba_tree.spVPos
 		spIsOnTrk = mamba_tree.spIsOnTrk
-
+		
 		# intersects
 		nIntersect = mamba_tree.nIntersect
 		intLayer = mamba_tree.intLayer
@@ -1585,14 +1578,14 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 		intUPos = mamba_tree.intUPos
 		intVPos = mamba_tree.intVPos
 		intInside = mamba_tree.intInside
-
+		
 		# print 'Number of single tracks : ', good_track
-
+		
 		k_x = ItpX[0]
 		k_y = ItpY[0]
-
+		
 		# print 'k_x : %f, k_y : %f' % (k_x, k_y)
-
+		
 		for j in range(6):
 			Xtrak[j] = SlpX[0] * X_zvals[j] + k_x
 			Ytrak[j] = SlpY[0] * Y_zvals[j] + k_y
@@ -1606,7 +1599,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 		residualY_long.Fill(varY_long)
 		residualX_short.Fill(varX_short)
 		residualX_long.Fill(varX_long)
-
+		
 		# if good_track % 50000 == 0:
 		if plotTracksFlag and good_track % 50000 == 0:
 			nnn += 1
@@ -1618,9 +1611,9 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			YZtrakgraph.SetLineStyle(1)
 			
 			# Create the fitting function
-   			fpol = TF1("fpol", "pol1", 0., 70.)
-   			fpol.SetLineWidth(2)
-   			XZtrakgraph.Fit(fpol, "QR")
+			fpol = TF1("fpol", "pol1", 0., 70.)
+			fpol.SetLineWidth(2)
+			XZtrakgraph.Fit(fpol, "QR")
 			
 			grintX = TGraphErrors(6)
 			grintX.SetTitle("Fitted line with .95 conf. band")
@@ -1637,16 +1630,16 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			c1.Divide(2,1)
 			c1.cd(1)
 			grintX.SetLineColor(kRed)
-   			grintX.Draw("p")
-   			XZtrakgraph.SetTitle("XZ projection of the track")
-   			XZtrakgraph.GetXaxis().SetLimits(-50.0,100.0)
+			grintX.Draw("p")
+			XZtrakgraph.SetTitle("XZ projection of the track")
+			XZtrakgraph.GetXaxis().SetLimits(-50.0,100.0)
 			XZtrakgraph.SetMinimum(-10.0)
 			XZtrakgraph.SetMaximum(11.0)
 			XZtrakgraph.GetYaxis().SetTitle("X (cm)")
 			XZtrakgraph.GetXaxis().SetTitle("Z (cm)")
 			XZtrakgraph.SetMarkerStyle(5)
 			XZtrakgraph.SetMarkerSize(0.7)
-   			XZtrakgraph.Draw("apsame")
+			XZtrakgraph.Draw("apsame")
 			c1.cd(2)
 			YZtrakgraph.Fit(fpol, "QR")
 			grintY = TGraphErrors(6)
@@ -1655,7 +1648,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				grintY.SetPoint(i, YZtrakgraph.GetX()[i], 0)
 			(TVirtualFitter.GetFitter()).GetConfidenceIntervals(grintY)
 			grintY.SetLineColor(kRed)
-   			grintY.Draw("p")
+			grintY.Draw("p")
 			YZtrakgraph.SetTitle("YZ projection of the track")
 			YZtrakgraph.GetXaxis().SetLimits(-50.0,100.0)
 			YZtrakgraph.SetMinimum(-10.0)
@@ -1668,35 +1661,35 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 			aname = "visual_" + `nnn` + ".pdf"
 			c1.Modified()
 			c1.SaveAs(plots_dir + aname)
-
+		
 		# loop on intersects
 		for iIntersect in range(nIntersect):
 			if intLayer[iIntersect] >= nDets:
 				continue
-
+			
 			# loop on spacepoints
 			for iSP in range(nSP):
 				if spLayer[iSP] != intLayer[iIntersect]:
 					continue
-
+				
 				# fill the histograms
 				iDet = spLayer[iSP]
 				resU = spUPos[iSP] - intUPos[iIntersect]
-
+				
 				resU_Det[iDet].Fill( resU )
-
+				
 				resUvsU_Det[iDet].Fill( intUPos[iIntersect], resU )
 				resUvsV_Det[iDet].Fill( intVPos[iIntersect], resU )
-
+				
 				resUvsSlpX_Det[iDet].Fill( SlpX[ntrk-1], resU )
 				resUvsSlpY_Det[iDet].Fill( SlpY[ntrk-1], resU )
-			
+				
 				# resUvsSlpX_Det[iDet].Fill( resultX[1], resU )
 				# resUvsSlpY_Det[iDet].Fill( resultY[1], resU )
-		
-		
+					
+					
 		# DUT
-
+		
 		XYdut.Fill(Xtrak[4],Ytrak[4])
 		XYdut_long.Fill(Xtrak[5],Ytrak[5])
 		if (nt08==1) :
@@ -1725,8 +1718,8 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				XYstr.Fill(Xtrak[4],Ytrak[4])
 				for i in xrange(nt00) :
 					TDC_str_trk.Fill(conversion*tt00[i])
-						 
-						 
+			
+			
 			if ((nt00==1) and (nt08==1)) :
 				XYboth.Fill(Xtrak[4],Ytrak[4])
 				TDC_dif_trk.Fill(conversion*(tt00[0]-tt08[0]))
@@ -1736,7 +1729,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				N_tracks_straw += 1
 				passed_tracks.Fill(Ytrak[4])
 				if advVshapeFit:
-#					resolutionS.Fill(Ytrak[4],inverseVshapeParametricMod(conversion*(tt00[0]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])-Ytrak[4])
+				#resolutionS.Fill(Ytrak[4],inverseVshapeParametricMod(conversion*(tt00[0]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])-Ytrak[4])
 					if conversion*(tt00[0]-tt08[0]) <= SinterTopMax or conversion*(tt00[0]-tt08[0]) <= SinterBotMax :
 						if enableToyMC:
 							if Ytrak[4] < bordS[1] and Ytrak[4] > bordS[0]:
@@ -1755,7 +1748,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 							resolutionS.Fill((sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-Ytrak[4]*sqrt(2)+(sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
 				else:
 					resolutionS.Fill(Ytrak[4],inverseVshapeParametric(conversion*(tt00[0]-tt08[0]),parS,Ytrak[4])-Ytrak[4])
-			   
+			
 			if ((nt00>1) and (nt08==1)) :
 				if advVshapeFit:
 					bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametricMod(Ytrak[4],parS),distSigma)
@@ -1772,7 +1765,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					very_good_track += 1
 					N_tracks_straw += 1
 					if advVshapeFit:
-	#					resolutionS.Fill(Ytrak[4],inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])-Ytrak[4])
+						#resolutionS.Fill(Ytrak[4],inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])-Ytrak[4])
 						if conversion*(tt00[best]-tt08[0]) <= SinterTopMax or conversion*(tt00[best]-tt08[0]) <= SinterBotMax :
 							if enableToyMC:
 								if Ytrak[4] < bordS[1] and Ytrak[4] > bordS[0]:
@@ -1791,13 +1784,12 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 								resolutionS.Fill((sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-sqrt(2)*Ytrak[4]+(sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
 					else:
 						resolutionS.Fill(Ytrak[4],inverseVshapeParametric(conversion*(tt00[best]-tt08[0]),parS,Ytrak[4])-Ytrak[4])
-
+			
 			if (nt01>=1) :
 				XYstr_long.Fill(Xtrak[5],Ytrak[5])
 				for i in xrange(nt01) :
 					TDC_str_trk_long.Fill(conversion*tt01[i])
-
-
+			
 			if ((nt01==1) and (nt08==1)) :
 				XYboth_long.Fill(Xtrak[5],Ytrak[5])
 				TDC_dif_trk_long.Fill(conversion*(tt01[0]-tt08[0]))
@@ -1807,7 +1799,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				N_tracks_straw_long += 1
 				passed_tracks_long.Fill(Ytrak[5])
 				if advVshapeFit:
-#					resolutionL.Fill(Ytrak[5],inverseVshapeParametricMod(conversion*(tt01[0]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])-Ytrak[5])
+					#resolutionL.Fill(Ytrak[5],inverseVshapeParametricMod(conversion*(tt01[0]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])-Ytrak[5])
 					if conversion*(tt01[0]-tt08[0]) <= LinterTopMax or conversion*(tt01[0]-tt08[0]) <= LinterBotMax :
 						if enableToyMC:
 							if Ytrak[5] < bordL[1] and Ytrak[5] > bordL[0]:
@@ -1826,7 +1818,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 							resolutionL.Fill(Ytrak[5],inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])-Ytrak[5])
 				else:
 					resolutionL.Fill(Ytrak[5],inverseVshapeParametric(conversion*(tt01[0]-tt08[0]),parL,Ytrak[5])-Ytrak[5])
-
+					
 			if ((nt01>1) and (nt08==1)) :
 				if advVshapeFit:
 					bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametricMod(Ytrak[5],parL),distSigma)
@@ -1842,7 +1834,7 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					very_good_track_long += 1
 					N_tracks_straw_long += 1
 					if advVshapeFit:
-	#					resolutionL.Fill(Ytrak[5],inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])-Ytrak[5])
+						#resolutionL.Fill(Ytrak[5],inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])-Ytrak[5])
 						if conversion*(tt01[best]-tt08[0]) <= LinterTopMax or conversion*(tt01[best]-tt08[0]) <= LinterBotMax :
 							if enableToyMC:
 								if Ytrak[5] < bordL[1] and Ytrak[5] > bordL[0]:
@@ -1866,11 +1858,11 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				XYstr.Fill(Xtrak[4],Ytrak[4])
 				for i in range(nt00):
 					TDC_str_trk.Fill(conversion*tt00[i])
-
+			
 			if nt01 == 1:
 				XYstr_long.Fill(Xtrak[5],Ytrak[5])
 				TDC_str_trk_long.Fill(conversion*tt01[0])
-
+			
 			if (nt00 == nHitsInShortStraw and nt08 == 1):
 				XYboth.Fill(Xtrak[4],Ytrak[4])
 				for i in range(nt00):
@@ -1880,13 +1872,13 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					N_tracks_straw += 1
 				very_good_track += 1
 				passed_tracks.Fill(Ytrak[4])
-
+			
 			if (nt00 == 1 and nt03 == 1 and nt04 == 1):
 				VshapeY_SiPM_up.Fill(Ytrak[4],conversion*(tt00[0]-(tt03[0] + tt04[0])/2))
-
+			
 			if (nt00 == 1 and nt05 == 1 and nt06 == 1):
 				VshapeY_SiPM_down.Fill(Ytrak[4],conversion*(tt00[0]-(tt05[0] + tt06[0])/2))
-
+			
 			if (nt01 == 1 and nt08 == 1):
 				XYboth_long.Fill(Xtrak[5],Ytrak[5])
 				TDC_dif_trk_long.Fill(conversion*(tt01[0]-tt08[0]))
@@ -1895,30 +1887,30 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				very_good_track_long += 1
 				N_tracks_straw_long += 1
 				passed_tracks_long.Fill(Ytrak[5])
-				
+			
 			if (nt01 == 1 and nt03 == 1 and nt04 == 1):
 				VshapeY_long_SiPM_up.Fill(Ytrak[5],conversion*(tt01[0]-(tt03[0] + tt04[0])/2))
-				
+			
 			if (nt01 == 1 and nt05 == 1 and nt06 == 1):
 				VshapeY_long_SiPM_down.Fill(Ytrak[5],conversion*(tt01[0]-(tt05[0] + tt06[0])/2))
-
+			
 	if nt00 == 1:
 		TDC_str_raw.Fill(conversion*tt00[0])
-
+	
 	if nt01 == 1:
 		TDC_str_raw_long.Fill(conversion*tt01[0])
-
+	
 	if nt08 == 1:
 		TDC_tim_raw.Fill(conversion*tt08[0])
 		TDC_tim_raw_long.Fill(conversion*tt08[0])
-
+	
 	if (nt00 == 1 and nt08 == 1):
 		for i in range(nt00):
 			TDC_dif_raw.Fill(conversion*(tt00[i]-tt08[0]))
-
+	
 	if (nt01 == 1 and nt08 == 1):
 		TDC_dif_raw_long.Fill(conversion*(tt01[0]-tt08[0]))
-
+	
 	count_processed +=1
 
 print  "   Events processed: ", count_processed
@@ -1980,7 +1972,7 @@ if noiseRedFlag :
 	else:
 		resolutionL.FitSlicesY(gf,resolutionL.GetXaxis().FindBin(bordL[0]),resolutionL.GetXaxis().FindBin(bordL[1]),18,"QNR",resolution_slices_long) # 18 20
 	#resolution_slices_long = FindRMSofSlices(resolutionL,False,resolutionL.GetXaxis().FindBin(bordL[0]),resolutionL.GetXaxis().FindBin(bordL[1]),18,"QNR") # 18 20
-
+	
 '''VshapeY_first = VshapeY.Clone()
 VshapeY_second = VshapeY.Clone()
 (VshapeY_first.GetXaxis()).SetRangeUser(-1.5, 0.)
@@ -1997,25 +1989,25 @@ gf_second = TF1("gf_second", "gaus", -0.3, 1.5)
 aSlicesS_first = TObjArray()
 aSlicesS_second = TObjArray()
 vshape_pars_histo = TObjArray()
- VshapeY_first.FitSlicesX(gf_first,(VshapeY_first.GetYaxis()).FindBin(-100),(VshapeY_first.GetYaxis()).FindBin(1200),10,"QNR",aSlicesS_first)
- VshapeY_second.FitSlicesX(gf_second,(VshapeY_second.GetYaxis()).FindBin(-100),(VshapeY_second.GetYaxis()).FindBin(1200),10,"QNR",aSlicesS_second)
+VshapeY_first.FitSlicesX(gf_first,(VshapeY_first.GetYaxis()).FindBin(-100),(VshapeY_first.GetYaxis()).FindBin(1200),10,"QNR",aSlicesS_first)
+VshapeY_second.FitSlicesX(gf_second,(VshapeY_second.GetYaxis()).FindBin(-100),(VshapeY_second.GetYaxis()).FindBin(1200),10,"QNR",aSlicesS_second)
 VshapeY.GetXaxis().SetRangeUser(-1.5,1.5)
- VshapeY.FitSlicesX(gf_two,VshapeY.GetYaxis().FindBin(-100),VshapeY.GetYaxis().FindBin(1200),7,"R",vshape_pars_histo)
+VshapeY.FitSlicesX(gf_two,VshapeY.GetYaxis().FindBin(-100),VshapeY.GetYaxis().FindBin(1200),7,"R",vshape_pars_histo)
 vshape_pars_histo = FitSlicesDoubleGaussian(VshapeY,True,VshapeY.GetYaxis().FindBin(-100),VshapeY.GetYaxis().FindBin(1200),10,"Rg2",vshape_pars_histo)
 
 aSlicesL_first = TObjArray()
 aSlicesL_second = TObjArray()
 vshape_pars_histo_long = TObjArray()
- VshapeY_long_first.FitSlicesX(gf_first,(VshapeY_long_first.GetYaxis()).FindBin(-100),(VshapeY_long_first.GetYaxis()).FindBin(400),20,"QNR",aSlicesL_first)
- VshapeY_long_second.FitSlicesX(gf_second,(VshapeY_long_second.GetYaxis()).FindBin(-100),(VshapeY_long_second.GetYaxis()).FindBin(400),20,"QNR",aSlicesL_second)
+VshapeY_long_first.FitSlicesX(gf_first,(VshapeY_long_first.GetYaxis()).FindBin(-100),(VshapeY_long_first.GetYaxis()).FindBin(400),20,"QNR",aSlicesL_first)
+VshapeY_long_second.FitSlicesX(gf_second,(VshapeY_long_second.GetYaxis()).FindBin(-100),(VshapeY_long_second.GetYaxis()).FindBin(400),20,"QNR",aSlicesL_second)
 VshapeY_long.GetXaxis().SetRangeUser(-1.5,1.5)
- VshapeY_long.FitSlicesX(gf_two,VshapeY_long.GetYaxis().FindBin(-100),VshapeY_long.GetYaxis().FindBin(400),7,"R",vshape_pars_histo_long)
+VshapeY_long.FitSlicesX(gf_two,VshapeY_long.GetYaxis().FindBin(-100),VshapeY_long.GetYaxis().FindBin(400),7,"R",vshape_pars_histo_long)
 vshape_pars_histo_long = FitSlicesDoubleGaussian(VshapeY_long,True,VshapeY_long.GetYaxis().FindBin(-100),VshapeY_long.GetYaxis().FindBin(400),10,"Rg2",vshape_pars_histo_long)'''
 
 # plotting
 
 if not batchFlag :
-
+	
 	gStyle.SetOptStat(1111111)
 	gStyle.SetTitleXSize(0.045)
 	gStyle.SetLabelSize(0.045,"y")
@@ -2026,9 +2018,9 @@ if not batchFlag :
 	gStyle.SetStatW(0.3)
 	gStyle.SetStatStyle(0)
 	gStyle.SetTitleFontSize(0.060)
-
+	
 	# timestamp plots
-
+	
 	C_cl =  TCanvas("C_cl", "C_cl",1280,800)
 	C_cl.Divide(2,2)
 	C_cl.cd(1)
@@ -2040,7 +2032,7 @@ if not batchFlag :
 	C_cl.cd(4)
 	T_us.Draw()
 	C_cl.SaveAs(plots_dir + "cl.pdf")
-
+	
 	C_cldif =  TCanvas("C_cldif", "C_cldif",1280,1200)
 	C_cldif.Divide(2,3)
 	C_cldif.cd(1)
@@ -2056,7 +2048,7 @@ if not batchFlag :
 	C_cldif.cd(6)
 	TSDif2.Draw()
 	C_cldif.SaveAs(plots_dir + "cldif.pdf")
-
+	
 	# DUT, TDC and Vshape plots
 	C_XYdut =  TCanvas("C_XYdut", "C_XYdut",1280,800)
 	C_XYdut.Divide(2,2)
@@ -2077,7 +2069,7 @@ if not batchFlag :
 	XYboth.SetYTitle("Y (cm)")
 	XYboth.Draw("colz")
 	C_XYdut.SaveAs(plots_dir + "XYdut.pdf")
-
+	
 	C_XYdut_long =  TCanvas("C_XYdut_long", "C_XYdut_long",1280,800)
 	C_XYdut_long.Divide(2,2)
 	C_XYdut_long.cd(1)
@@ -2097,7 +2089,7 @@ if not batchFlag :
 	XYboth_long.SetYTitle("Y (cm)")
 	XYboth_long.Draw("colz")
 	C_XYdut_long.SaveAs(plots_dir + "XYdut_long.pdf")
-
+	
 	C_tdc =  TCanvas("C_tdc", "C_tdc",1920,800)
 	C_tdc.Divide(3,2)
 	C_tdc.cd(1)
@@ -2121,7 +2113,7 @@ if not batchFlag :
 	TDC_dif_trk.SetXTitle("TDC (ns)")
 	TDC_dif_trk.Draw()
 	C_tdc.SaveAs(plots_dir + "tdc.pdf")
-
+	
 	C_tdc_long =  TCanvas("C_tdc_long", "C_tdc_long",1920,800)
 	C_tdc_long.Divide(3,2)
 	C_tdc_long.cd(1)
@@ -2145,7 +2137,7 @@ if not batchFlag :
 	TDC_dif_trk_long.SetXTitle("TDC (ns)")
 	TDC_dif_trk_long.Draw()
 	C_tdc_long.SaveAs(plots_dir + "tdc_long.pdf")
-
+	
 	C_t =  TCanvas("C_t", "C_t",1280,800)
 	C_t.Divide(2,2)
 	C_t.cd(1)
@@ -2233,7 +2225,7 @@ if not batchFlag :
 	C_t_SiPMs.SaveAs(plots_dir + "vshapes_SiPMs.pdf")
 	gStyle.SetStatX(0.9)
 	gStyle.SetStatY(0.9)
-
+	
 	C_eff = TCanvas("C_eff", "C_eff", 1280, 800)
 	C_eff.Divide(2,2)
 	C_eff.cd(1)
@@ -2257,7 +2249,7 @@ if not batchFlag :
 	effY_long_zoom.GetYaxis().SetRangeUser(0.9,1.1)
 	effY_long_zoom.Draw()
 	C_eff.SaveAs(plots_dir + "efficiency.pdf")
-
+	
 	if noiseRedFlag :
 		C_resolSL = TCanvas("C_resolSL", "C_resolSL", 2560, 800)
 		C_resolSL.Divide(4,2)
@@ -2372,7 +2364,7 @@ if not batchFlag :
 		#rmsL_second.Draw()
 		C_resolSL.Draw()
 		C_resolSL.SaveAs(plots_dir + "resolutionS+L.pdf")
-
+		
 		if enableToyMC:
 			C_toyMC =  TCanvas("C_toyMC", "C_toyMC",1280,800)
 			C_toyMC.Divide(1,2)
@@ -2415,7 +2407,7 @@ if not batchFlag :
 			C_toyMC.SaveAs(plots_dir + "vshapes_toyMC.pdf")
 
 	'''raw_input("Press any key to continue\n")
-
+	
 	C_resolL = TCanvas("C_resolL", "C_resolL", 2000, 1000)
 	C_resolL.Divide(3,2)
 	C_resolL.cd(1)
@@ -2439,60 +2431,60 @@ if not batchFlag :
 	rmsL_second = aSlicesL_second[2].Clone()
 	rmsL_second.Draw()
 	C_resolL.SaveAs(plots_dir + "resolutionL.pdf")'''
-
-
+	
+	
 	# canvas for residuals
-
+	
 	c_resU_Det = TCanvas("U_residual_on_detectors", "U_residual_on_detectors", 1280,800)
-
+	
 	c_resUvsU_Det = TCanvas("U_residual_vs_U_on_detectors", "U_residual_vs_U_on_detectors", 1280,800)
 	c_resUvsV_Det = TCanvas("U_residual_vs_V_on_detectors", "U_residual_vs_V_on_detectors", 1280,800)
-
-
+	
+	
 	c_resUvsSlpX_Det = TCanvas("U_residual_vs_SlpX_on_detectors", "U_residual_vs_SlpX_on_detectors", 1280,800)
 	c_resUvsSlpY_Det = TCanvas("U_residual_vs_SlpY_on_detectors", "U_residual_vs_SlpY_on_detectors", 1280,800)
-
+	
 	# canvas fill residuals
 	c_resU_Det.Divide(4,2)
-
+	
 	c_resUvsU_Det.Divide(4,2)
 	c_resUvsV_Det.Divide(4,2)
-
+	
 	c_resUvsSlpX_Det.Divide(4,2)
 	c_resUvsSlpY_Det.Divide(4,2)
-
+	
 	for iDet in range(nDets):
-		c_resU_Det.cd(iDet+1)
+	c_resU_Det.cd(iDet+1)
 		resU_Det[iDet].Draw()
 		resU_Det[iDet].Fit("gaus","R")
 		
 		c_resUvsU_Det.cd(iDet+1)
 		resUvsU_Det[iDet].Draw("colz")
-
+		
 		c_resUvsV_Det.cd(iDet+1)
 		resUvsV_Det[iDet].Draw("colz")
-
+		
 		c_resUvsSlpX_Det.cd(iDet+1)
 		resUvsSlpX_Det[iDet].Draw("colz")
-
+		
 		c_resUvsSlpY_Det.cd(iDet+1)
 		resUvsSlpY_Det[iDet].Draw("colz")
-	
-
+		
+		
 	# canvas draw
 	c_resU_Det.Draw()
 	c_resU_Det.SaveAs(plots_dir + "U_res.pdf")
-
+	
 	c_resUvsU_Det.Draw()
 	c_resUvsV_Det.Draw()
 	c_resUvsU_Det.SaveAs(plots_dir + "UvsU_det_res.pdf")
 	c_resUvsV_Det.SaveAs(plots_dir + "UvsV_det_res.pdf")
-
+	
 	c_resUvsSlpX_Det.Draw()
 	c_resUvsSlpY_Det.Draw()
 	c_resUvsSlpX_Det.SaveAs(plots_dir + "UvsSlpX_det_res.pdf")
 	c_resUvsSlpY_Det.SaveAs(plots_dir + "UvsSlpY_det_res.pdf")
-
+	
 	c_residuals_DUT = TCanvas("XY_sigma_in_DUTs", "XY_sigma_in_DUTs", 1280, 800)
 	c_residuals_DUT.Divide(2,2)
 	c_residuals_DUT.cd(1)
@@ -2512,7 +2504,7 @@ if not batchFlag :
 	residualY_long.Draw()
 	# residualY_long.Fit("gaus","R")
 	c_residuals_DUT.SaveAs(plots_dir + "sigmas_DUT.pdf")
-
+	
 	c_tdc_hit_cor = TCanvas("Hits_correlation","Hits_correlation", 1280, 800)
 	c_tdc_hit_cor.Divide(4,2)
 	c_tdc_hit_cor.cd(1)
@@ -2572,15 +2564,15 @@ if not batchFlag :
 	stTDC_scin_2_hits_SiPM_up_down.SetY2NDC(0.9)
 	gPad.Update()
 	c_tdc_hit_cor.SaveAs(plots_dir + "hits_cor.pdf")
-
-#	raw_input("Press any key to continue\n")
-
-
+	
+	#raw_input("Press any key to continue\n")
+	
+	
 if syncFileFlag and not loadSyncFileFlag:
 	sync_mamba_tree.AddFriend(sync_vme_tree)
 	sync_mamba_tree.Write()
 	sync_vme_tree.Write()
-
+	
 	out_file.Close()
 
 
@@ -2657,4 +2649,3 @@ if noiseRedFlag:
 resol_file.Close()
 
 # end of the script
-
