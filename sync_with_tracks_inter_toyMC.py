@@ -394,9 +394,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 			continue
 		nentries = hp.GetEntries()
 		kurt = hp.GetKurtosis()
-		print "111111!!!!!!!!!!!!!!!!!!!!!!!"
 		if (nentries == 0 or nentries < cut or kurt < 0 or nentries/(1.0*max_nentries) < 0.2):
-			print "discarded coordinate: ", hp.GetBinCenter(bin)
 			bin += nstep
 			del hp
 			continue
