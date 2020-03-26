@@ -382,6 +382,7 @@ def FitSlicesFindBinMax(vshape, onX, firstbin, lastbin, cut, option) :
 		del hp
 		bin += nstep
 	
+	bin = firstbin
 	print "Max entries: ", max_nentries
 	while (bin+ngroup-1<=lastbin) :
 		if (onX) :
