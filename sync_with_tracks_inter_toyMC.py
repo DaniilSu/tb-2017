@@ -123,11 +123,11 @@ def interpolatePoints(coord,dtime,errorcoord,errordtime,apex):
 	#dtime = np.around(dtime, decimals=4)
 	getcontext().prec = 4
 	dtime = [float(Decimal("%.4f" % e)) for e in dtime]
-	f_left = interp1d(sorted(dtime[indexDiv:]),sorted(coord[indexDiv:],reverse=True),kind='slinear') # will be bottom when inverted
-	f_right = interp1d(sorted(dtime[:indexDiv]),sorted(coord[:indexDiv]),kind='slinear') # will become top
+	f_right = interp1d(sorted(dtime[indexDiv:]),sorted(coord[indexDiv:]),kind='slinear') # will be top when inverted
+	f_left = interp1d(sorted(dtime[:indexDiv]),sorted(coord[:indexDiv],reverse=True),kind='slinear') # will become bottom
 	#dtime_precise_left = insertInBetween(insertInBetween(insertInBetween(sorted(dtime[indexDiv:]))))
 	#dtime_precise_right = insertInBetween(insertInBetween(insertInBetween(sorted(dtime[:indexDiv]))))
-	print dtime[indexDiv:]
+	#print dtime[indexDiv:]
 	#plt.plot(sorted(dtime[indexDiv:]), sorted(coord[indexDiv:]), 'o')
 	#plt.plot(dtime_precise_left, f_left(dtime_precise_left), '-')
 	#plt.legend(['data', 'linear'], loc='best')
@@ -142,8 +142,8 @@ def interpolatePoints(coord,dtime,errorcoord,errordtime,apex):
 	#plt.ylabel('Y (cm)')
 	#plt.title('Right branch of the V-shape')
 	#plt.show()
-	bot_dtime=sorted(dtime[indexDiv:])
-	top_dtime=sorted(dtime[:indexDiv])
+	top_dtime=sorted(dtime[indexDiv:])
+	bot_dtime=sorted(dtime[:indexDiv])
 	return f_right, f_left, top_dtime[0], bot_dtime[0], top_dtime[-1], bot_dtime[-1]
 
 def findInverseFunc(coord,dtime,errorcoord,errordtime,apex) :
