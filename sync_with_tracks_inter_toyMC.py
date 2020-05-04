@@ -74,16 +74,18 @@ def inverseVshapeParametricMod(dt, par1, par2, minimum1, minimum2, y_track) :
 		return result[1]
 
 def inverseVshapeParametricInter(dt, f1, f2, minimum1, minimum2, maximum1, maximum2, y_track) :
-	result = 2 * [0]
+	result = 2 * [0] # f1 = t(y) top; f2 = t(y) bottom
 	if dt < minimum1 and dt < minimum2:
 		result[0] = f1(minimum1)
 		result[1] = f2(minimum2)
 	elif dt < minimum1 and dt >= minimum2:
-		result[0] = f1(minimum1)
+		#result[0] = f1(minimum1)
 		result[1] = f2(dt)
+		return result[1]
 	elif dt >= minimum1 and dt < minimum2:
 		result[0] = f1(dt)
-		result[1] = f2(minimum2)
+		#result[1] = f2(minimum2)
+		return result[0]
 	#elif dt > maximum1 and dt > maximum2:
 		#result[0] = f1(maximum1)
 		#result[1] = f2(maximum2)
@@ -121,8 +123,8 @@ def interpolatePoints(coord,dtime,errorcoord,errordtime,apex):
 	#dtime = np.around(dtime, decimals=4)
 	getcontext().prec = 4
 	dtime = [float(Decimal("%.4f" % e)) for e in dtime]
-	f_left = interp1d(sorted(dtime[indexDiv:]),sorted(coord[indexDiv:]),kind='slinear')
-	f_right = interp1d(sorted(dtime[:indexDiv]),sorted(coord[:indexDiv],reverse=True),kind='slinear')
+	f_left = interp1d(sorted(dtime[indexDiv:]),sorted(coord[indexDiv:],reverse=True),kind='slinear') # will be bottom when inverted
+	f_right = interp1d(sorted(dtime[:indexDiv]),sorted(coord[:indexDiv]),kind='slinear') # will become top
 	#dtime_precise_left = insertInBetween(insertInBetween(insertInBetween(sorted(dtime[indexDiv:]))))
 	#dtime_precise_right = insertInBetween(insertInBetween(insertInBetween(sorted(dtime[:indexDiv]))))
 	print dtime[indexDiv:]
@@ -140,9 +142,9 @@ def interpolatePoints(coord,dtime,errorcoord,errordtime,apex):
 	#plt.ylabel('Y (cm)')
 	#plt.title('Right branch of the V-shape')
 	#plt.show()
-	top_dtime=sorted(dtime[indexDiv:])
-	bot_dtime=sorted(dtime[:indexDiv])
-	return f_left, f_right, dtime[indexDiv], dtime[indexDiv-1], top_dtime[-1], bot_dtime[-1]
+	bot_dtime=sorted(dtime[indexDiv:])
+	top_dtime=sorted(dtime[:indexDiv])
+	return f_right, f_left, top_dtime[0], bot_dtime[0], top_dtime[-1], bot_dtime[-1]
 
 def findInverseFunc(coord,dtime,errorcoord,errordtime,apex) :
 	indexDiv = next(i for i,j in enumerate(coord) if j>=apex)
