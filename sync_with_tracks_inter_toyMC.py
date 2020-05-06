@@ -1749,13 +1749,13 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 							else:
 								Ytrak_toy = r.Gaus(Ytrak[4],sigmaYtrak)
 								time_toy = r.Gaus(vshapeParametricMod(Ytrak[4],parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[4],parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-							if method = "Inter":
+							if method == "Inter":
 								if time_toy <= SinterTopMax or time_toy <= SinterBotMax:
 									VshapeY_toy.Fill(Ytrak_toy,time_toy)
 									resolutionS_toy.Fill(inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy), -Ytrak_toy+inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy))
 								if conversion*(tt00[0]-tt08[0]) <= SinterTopMax or conversion*(tt00[0]-tt08[0]) <= SinterBotMax :
 								resolutionS.Fill(inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-Ytrak[4]+inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
-							if method = "Pol6":
+							if method == "Pol6":
 									VshapeY_toy.Fill(Ytrak_toy,time_toy)
 									resolutionS_toy.Fill(Ytrak_toy, -Ytrak_toy+inverseVshapeParametricInter(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy))
 									resolutionS.Fill(Ytrak[4],-Ytrak[4]+inverseVshapeParametricMod(conversion*(tt00[0]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4]))
@@ -1792,13 +1792,13 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 								else:
 									Ytrak_toy = r.Gaus(Ytrak[4],sigmaYtrak)
 									time_toy = r.Gaus(vshapeParametricMod(Ytrak[4],parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[4],parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-								if method = "Inter":
+								if method == "Inter":
 									if time_toy <= SinterTopMax or time_toy <= SinterBotMax:
 										VshapeY_toy.Fill(Ytrak_toy,time_toy)
 										resolutionS_toy.Fill(inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy), -Ytrak_toy+inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy))
 									if conversion*(tt00[best]-tt08[0]) <= SinterTopMax or conversion*(tt00[best]-tt08[0]) <= SinterBotMax :
 									resolutionS.Fill(inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-Ytrak[4]+inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
-								if method = "Pol6":
+								if method == "Pol6":
 										VshapeY_toy.Fill(Ytrak_toy,time_toy)
 										resolutionS_toy.Fill(Ytrak_toy, -Ytrak_toy+inverseVshapeParametricInter(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy))
 										resolutionS.Fill(Ytrak[4],-Ytrak[4]+inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4]))
@@ -1833,12 +1833,12 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 							else:
 								Ytrak_toy = r.Gaus(Ytrak[5],sigmaYtrak)
 								time_toy = r.Gaus(vshapeParametricMod(Ytrak[5],parL),((sigma2time-sigma1time)/(max(dtimeL)-min(dtimeL)))*vshapeParametricMod(Ytrak[5],parL)+(sigma1time*max(dtimeL)-min(dtimeL)*sigma2time)/(max(dtimeL)-min(dtimeL)))
-							if method = "Inter":
+							if method == "Inter":
 								if time_toy <= LinterTopMax or time_toy <= LinterBotMax:
 									resolutionL_toy.Fill(inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy), -Ytrak_toy+inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy))
 								if conversion*(tt01[0]-tt08[0]) <= LinterTopMax or conversion*(tt01[0]-tt08[0]) <= LinterBotMax :
 								resolutionL.Fill(inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]),-Ytrak[5]+inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]))
-							if method = "Pol6":
+							if method == "Pol6":
 									resolutionL_toy.Fill(Ytrak_toy, -Ytrak_toy+inverseVshapeParametricInter(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy))
 									resolutionL.Fill(Ytrak[5],-Ytrak[5]+inverseVshapeParametricMod(conversion*(tt01[0]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5]))
 						elif not enableToyMC:
@@ -1873,12 +1873,12 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 								else:
 									Ytrak_toy = r.Gaus(Ytrak[5],sigmaYtrak)
 									time_toy = r.Gaus(vshapeParametricMod(Ytrak[5],parL),((sigma2time-sigma1time)/(max(dtimeL)-min(dtimeL)))*vshapeParametricMod(Ytrak[5],parL)+(sigma1time*max(dtimeL)-min(dtimeL)*sigma2time)/(max(dtimeL)-min(dtimeL)))
-								if method = "Inter":
+								if method == "Inter":
 									if time_toy <= LinterTopMax or time_toy <= LinterBotMax:
 										resolutionL_toy.Fill(inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy), -Ytrak_toy+inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy))
 									if conversion*(tt01[best]-tt08[0]) <= LinterTopMax or conversion*(tt01[best]-tt08[0]) <= LinterBotMax :
 									resolutionL.Fill(inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]),-Ytrak[5]+inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]))
-								if method = "Pol6":
+								if method == "Pol6":
 										resolutionL_toy.Fill(Ytrak_toy, -Ytrak_toy+inverseVshapeParametricInter(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy))
 										resolutionL.Fill(Ytrak[5],-Ytrak[5]+inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5]))
 							elif not enableToyMC:
