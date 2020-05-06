@@ -596,9 +596,9 @@ if not binSizeFlag:
 	if enableToyMC:
 		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", 200, -1., 1., 240, -1.2, 1.2)
 else:
-	resolutionS = TH2F("Resolution_short", "Resolution_short", int(2.0/(0.0001*float(sys.argv[4]))), -1., 1., 1000, -1.2, 1.2)
+	resolutionS = TH2F("Resolution_short", "Resolution_short", int(2.4/(0.0001*float(sys.argv[4]))), -1.2, 1.2, 1000, -1.2, 1.2)
 	if enableToyMC:
-		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", int(2.0/(0.0001*float(sys.argv[4]))), -1., 1., 1000, -1.2, 1.2)
+		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", int(2.4/(0.0001*float(sys.argv[4]))), -1.2, 1.2, 1000, -1.2, 1.2)
 resolutionL = TH2F("Resolution_long", "Resolution_long", 300, -1.5, 1.5, 60, -0.3, 0.3)
 if enableToyMC:
 	resolutionL_toy = TH2F("Resolution_long_toy", "Resolution_long_toyMC", 300, -1.5, 1.5, 60, -0.3, 0.3)
@@ -658,6 +658,11 @@ sigmaTest = False
 # ntrk test flag
 
 ntrkFlag = False
+
+# Switch between 6-deg polynomial and interpolation
+
+if advVshapeFit:
+	method = "Inter" # Inter or Pol6
 
 # declare the histograms for residual calculations
 
@@ -793,10 +798,12 @@ if noiseRedFlag:
 		f2L = open("outputfiles/" + "points_long_" + sys.argv[3] + ".dat", "r")
 		coordL,dtimeL,errorcoordL,errordtimeL = np.loadtxt(f2L, skiprows=1, unpack=True)
 		f2L.close()
-		#parSinvTop, parSinvBot, SinvTopMin, SinvBotMin = findInverseFunc(coordS,dtimeS,errorcoordS,errordtimeS,apexS)
-		#parLinvTop, parLinvBot, LinvTopMin, LinvBotMin = findInverseFunc(coordL,dtimeL,errorcoordL,errordtimeL,apexL)
-		fSinterTop, fSinterBot, SinterTopMin, SinterBotMin, SinterTopMax, SinterBotMax = interpolatePoints(coordS,dtimeS,errorcoordS,errordtimeS,apexS)
-		fLinterTop, fLinterBot, LinterTopMin, LinterBotMin, LinterTopMax, LinterBotMax = interpolatePoints(coordL,dtimeL,errorcoordL,errordtimeL,apexL)
+		if method == "Pol6":
+			parSinvTop, parSinvBot, SinvTopMin, SinvBotMin = findInverseFunc(coordS,dtimeS,errorcoordS,errordtimeS,apexS)
+			parLinvTop, parLinvBot, LinvTopMin, LinvBotMin = findInverseFunc(coordL,dtimeL,errorcoordL,errordtimeL,apexL)
+		if method == "Inter":
+			fSinterTop, fSinterBot, SinterTopMin, SinterBotMin, SinterTopMax, SinterBotMax = interpolatePoints(coordS,dtimeS,errorcoordS,errordtimeS,apexS)
+			fLinterTop, fLinterBot, LinterTopMin, LinterBotMin, LinterTopMax, LinterBotMax = interpolatePoints(coordL,dtimeL,errorcoordL,errordtimeL,apexL)
 	
 	plots_dir = plots_dir + "_noise_red/"
 	if os.path.exists(plots_dir):
@@ -1733,23 +1740,30 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				N_tracks_straw += 1
 				passed_tracks.Fill(Ytrak[4])
 				if advVshapeFit:
-				#resolutionS.Fill(Ytrak[4],inverseVshapeParametricMod(conversion*(tt00[0]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])-Ytrak[4])
-					if conversion*(tt00[0]-tt08[0]) <= SinterTopMax or conversion*(tt00[0]-tt08[0]) <= SinterBotMax :
-						if enableToyMC:
-							if Ytrak[4] < bordS[1] and Ytrak[4] > bordS[0]:
-								if enableUniform:
-									Ytrak_uni = r.Uniform(bordS[0],bordS[1])
-									Ytrak_toy = r.Gaus(Ytrak_uni,sigmaYtrak)
-									time_toy = r.Gaus(vshapeParametricMod(Ytrak_uni,parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak_uni,parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-								else:
-									Ytrak_toy = r.Gaus(Ytrak[4],sigmaYtrak)
-									time_toy = r.Gaus(vshapeParametricMod(Ytrak[4],parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[4],parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
+					if enableToyMC:
+						if Ytrak[4] < bordS[1] and Ytrak[4] > bordS[0]:
+							if enableUniform:
+								Ytrak_uni = r.Uniform(bordS[0],bordS[1])
+								Ytrak_toy = r.Gaus(Ytrak_uni,sigmaYtrak)
+								time_toy = r.Gaus(vshapeParametricMod(Ytrak_uni,parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak_uni,parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
+							else:
+								Ytrak_toy = r.Gaus(Ytrak[4],sigmaYtrak)
+								time_toy = r.Gaus(vshapeParametricMod(Ytrak[4],parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[4],parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
+							if method = "Inter":
 								if time_toy <= SinterTopMax or time_toy <= SinterBotMax:
 									VshapeY_toy.Fill(Ytrak_toy,time_toy)
-									resolutionS_toy.Fill((sqrt(2)/2)*inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy), -Ytrak_toy*sqrt(2)+(sqrt(2)/2)*inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy))
-							resolutionS.Fill((sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-Ytrak[4]*sqrt(2)+(sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
+									resolutionS_toy.Fill(inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy), -Ytrak_toy+inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy))
+								if conversion*(tt00[0]-tt08[0]) <= SinterTopMax or conversion*(tt00[0]-tt08[0]) <= SinterBotMax :
+								resolutionS.Fill(inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-Ytrak[4]+inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
+							if method = "Pol6":
+									VshapeY_toy.Fill(Ytrak_toy,time_toy)
+									resolutionS_toy.Fill(Ytrak_toy, -Ytrak_toy+inverseVshapeParametricInter(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy))
+									resolutionS.Fill(Ytrak[4],-Ytrak[4]+inverseVshapeParametricMod(conversion*(tt00[0]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4]))
 						elif not enableToyMC:
-							resolutionS.Fill((sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-Ytrak[4]*sqrt(2)+(sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
+							if method == "Pol6":
+							resolutionS.Fill(Ytrak[4],inverseVshapeParametricMod(conversion*(tt00[0]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])-Ytrak[4])
+							if method == "Inter":
+							resolutionS.Fill(inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-Ytrak[4]+inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
 				else:
 					resolutionS.Fill(Ytrak[4],inverseVshapeParametric(conversion*(tt00[0]-tt08[0]),parS,Ytrak[4])-Ytrak[4])
 			
@@ -1769,23 +1783,30 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					very_good_track += 1
 					N_tracks_straw += 1
 					if advVshapeFit:
-						#resolutionS.Fill(Ytrak[4],inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])-Ytrak[4])
-						if conversion*(tt00[best]-tt08[0]) <= SinterTopMax or conversion*(tt00[best]-tt08[0]) <= SinterBotMax :
-							if enableToyMC:
-								if Ytrak[4] < bordS[1] and Ytrak[4] > bordS[0]:
-									if enableUniform:
-										Ytrak_uni = r.Uniform(bordS[0],bordS[1])
-										Ytrak_toy = r.Gaus(Ytrak_uni,sigmaYtrak)
-										time_toy = r.Gaus(vshapeParametricMod(Ytrak_uni,parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak_uni,parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-									else:
-										Ytrak_toy = r.Gaus(Ytrak[4],sigmaYtrak)
-										time_toy = r.Gaus(vshapeParametricMod(Ytrak[4],parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[4],parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
+						if enableToyMC:
+							if Ytrak[4] < bordS[1] and Ytrak[4] > bordS[0]:
+								if enableUniform:
+									Ytrak_uni = r.Uniform(bordS[0],bordS[1])
+									Ytrak_toy = r.Gaus(Ytrak_uni,sigmaYtrak)
+									time_toy = r.Gaus(vshapeParametricMod(Ytrak_uni,parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak_uni,parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
+								else:
+									Ytrak_toy = r.Gaus(Ytrak[4],sigmaYtrak)
+									time_toy = r.Gaus(vshapeParametricMod(Ytrak[4],parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[4],parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
+								if method = "Inter":
 									if time_toy <= SinterTopMax or time_toy <= SinterBotMax:
 										VshapeY_toy.Fill(Ytrak_toy,time_toy)
-										resolutionS_toy.Fill((sqrt(2)/2)*inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy),-sqrt(2)*Ytrak_toy+(sqrt(2)/2)*inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy))
-								resolutionS.Fill((sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-sqrt(2)*Ytrak[4]+(sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
+										resolutionS_toy.Fill(inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy), -Ytrak_toy+inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy))
+									if conversion*(tt00[best]-tt08[0]) <= SinterTopMax or conversion*(tt00[best]-tt08[0]) <= SinterBotMax :
+									resolutionS.Fill(inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-Ytrak[4]+inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
+								if method = "Pol6":
+										VshapeY_toy.Fill(Ytrak_toy,time_toy)
+										resolutionS_toy.Fill(Ytrak_toy, -Ytrak_toy+inverseVshapeParametricInter(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy))
+										resolutionS.Fill(Ytrak[4],-Ytrak[4]+inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4]))
 							elif not enableToyMC:
-								resolutionS.Fill((sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-sqrt(2)*Ytrak[4]+(sqrt(2)/2)*inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
+								if method == "Pol6":
+								resolutionS.Fill(Ytrak[4],inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])-Ytrak[4])
+								if method == "Inter":
+								resolutionS.Fill(inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]),-Ytrak[4]+inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4]))
 					else:
 						resolutionS.Fill(Ytrak[4],inverseVshapeParametric(conversion*(tt00[best]-tt08[0]),parS,Ytrak[4])-Ytrak[4])
 			
@@ -1803,23 +1824,28 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 				N_tracks_straw_long += 1
 				passed_tracks_long.Fill(Ytrak[5])
 				if advVshapeFit:
-					#resolutionL.Fill(Ytrak[5],inverseVshapeParametricMod(conversion*(tt01[0]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])-Ytrak[5])
-					if conversion*(tt01[0]-tt08[0]) <= LinterTopMax or conversion*(tt01[0]-tt08[0]) <= LinterBotMax :
-						if enableToyMC:
-							if Ytrak[5] < bordL[1] and Ytrak[5] > bordL[0]:
-								if enableUniform:
-									Ytrak_uni_long = r.Uniform(bordL[0],bordL[1])
-									Ytrak_toy_long = r.Gaus(Ytrak_uni_long,sigmaYtrak)
-									time_toy_long = r.Gaus(vshapeParametricMod(Ytrak_uni_long,parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak_uni_long,parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-								else:
-									Ytrak_toy_long = r.Gaus(Ytrak[5],sigmaYtrak)
-									time_toy_long = r.Gaus(vshapeParametricMod(Ytrak[5],parL),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[5],parL)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-								if time_toy_long <= LinterTopMax or time_toy_long <= LinterBotMax:
-									VshapeY_long_toy.Fill(Ytrak_toy_long,time_toy_long)
-									resolutionL_toy.Fill(Ytrak_toy_long,inverseVshapeParametricInter(time_toy_long,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy_long)-Ytrak_toy_long)
-							resolutionL.Fill(Ytrak[5],inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])-Ytrak[5])
+					if enableToyMC:
+						if Ytrak[5] < bordL[1] and Ytrak[5] > bordL[0]:
+							if enableUniform:
+								Ytrak_uni = r.Uniform(bordL[0],bordL[1])
+								Ytrak_toy = r.Gaus(Ytrak_uni,sigmaYtrak)
+								time_toy = r.Gaus(vshapeParametricMod(Ytrak_uni,parL),((sigma2time-sigma1time)/(max(dtimeL)-min(dtimeL)))*vshapeParametricMod(Ytrak_uni,parL)+(sigma1time*max(dtimeL)-min(dtimeL)*sigma2time)/(max(dtimeL)-min(dtimeL)))
+							else:
+								Ytrak_toy = r.Gaus(Ytrak[5],sigmaYtrak)
+								time_toy = r.Gaus(vshapeParametricMod(Ytrak[5],parL),((sigma2time-sigma1time)/(max(dtimeL)-min(dtimeL)))*vshapeParametricMod(Ytrak[5],parL)+(sigma1time*max(dtimeL)-min(dtimeL)*sigma2time)/(max(dtimeL)-min(dtimeL)))
+							if method = "Inter":
+								if time_toy <= LinterTopMax or time_toy <= LinterBotMax:
+									resolutionL_toy.Fill(inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy), -Ytrak_toy+inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy))
+								if conversion*(tt01[0]-tt08[0]) <= LinterTopMax or conversion*(tt01[0]-tt08[0]) <= LinterBotMax :
+								resolutionL.Fill(inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]),-Ytrak[5]+inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]))
+							if method = "Pol6":
+									resolutionL_toy.Fill(Ytrak_toy, -Ytrak_toy+inverseVshapeParametricInter(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy))
+									resolutionL.Fill(Ytrak[5],-Ytrak[5]+inverseVshapeParametricMod(conversion*(tt01[0]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5]))
 						elif not enableToyMC:
-							resolutionL.Fill(Ytrak[5],inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])-Ytrak[5])
+							if method == "Pol6":
+							resolutionL.Fill(Ytrak[5],inverseVshapeParametricMod(conversion*(tt01[0]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])-Ytrak[5])
+							if method == "Inter":
+							resolutionL.Fill(inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]),-Ytrak[5]+inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]))
 				else:
 					resolutionL.Fill(Ytrak[5],inverseVshapeParametric(conversion*(tt01[0]-tt08[0]),parL,Ytrak[5])-Ytrak[5])
 					
@@ -1838,23 +1864,28 @@ for iEvt in xrange(n_mamba_events-mambaTmp):
 					very_good_track_long += 1
 					N_tracks_straw_long += 1
 					if advVshapeFit:
-						#resolutionL.Fill(Ytrak[5],inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])-Ytrak[5])
-						if conversion*(tt01[best]-tt08[0]) <= LinterTopMax or conversion*(tt01[best]-tt08[0]) <= LinterBotMax :
-							if enableToyMC:
-								if Ytrak[5] < bordL[1] and Ytrak[5] > bordL[0]:
-									if enableUniform:
-										Ytrak_uni_long = r.Uniform(bordL[0],bordL[1])
-										Ytrak_toy_long = r.Gaus(Ytrak_uni_long,sigmaYtrak)
-										time_toy_long = r.Gaus(vshapeParametricMod(Ytrak_uni_long,parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak_uni_long,parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-									else:
-										Ytrak_toy_long = r.Gaus(Ytrak[5],sigmaYtrak)
-										time_toy_long = r.Gaus(vshapeParametricMod(Ytrak[5],parL),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[5],parL)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-									if time_toy_long <= LinterTopMax or time_toy_long <= LinterBotMax:
-										VshapeY_long_toy.Fill(Ytrak_toy_long,time_toy_long)
-										resolutionL_toy.Fill(Ytrak_toy_long,inverseVshapeParametricInter(time_toy_long,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy_long)-Ytrak_toy_long)
-								resolutionL.Fill(Ytrak[5],inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])-Ytrak[5])
+						if enableToyMC:
+							if Ytrak[5] < bordL[1] and Ytrak[5] > bordL[0]:
+								if enableUniform:
+									Ytrak_uni = r.Uniform(bordL[0],bordL[1])
+									Ytrak_toy = r.Gaus(Ytrak_uni,sigmaYtrak)
+									time_toy = r.Gaus(vshapeParametricMod(Ytrak_uni,parL),((sigma2time-sigma1time)/(max(dtimeL)-min(dtimeL)))*vshapeParametricMod(Ytrak_uni,parL)+(sigma1time*max(dtimeL)-min(dtimeL)*sigma2time)/(max(dtimeL)-min(dtimeL)))
+								else:
+									Ytrak_toy = r.Gaus(Ytrak[5],sigmaYtrak)
+									time_toy = r.Gaus(vshapeParametricMod(Ytrak[5],parL),((sigma2time-sigma1time)/(max(dtimeL)-min(dtimeL)))*vshapeParametricMod(Ytrak[5],parL)+(sigma1time*max(dtimeL)-min(dtimeL)*sigma2time)/(max(dtimeL)-min(dtimeL)))
+								if method = "Inter":
+									if time_toy <= LinterTopMax or time_toy <= LinterBotMax:
+										resolutionL_toy.Fill(inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy), -Ytrak_toy+inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy))
+									if conversion*(tt01[best]-tt08[0]) <= LinterTopMax or conversion*(tt01[best]-tt08[0]) <= LinterBotMax :
+									resolutionL.Fill(inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]),-Ytrak[5]+inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]))
+								if method = "Pol6":
+										resolutionL_toy.Fill(Ytrak_toy, -Ytrak_toy+inverseVshapeParametricInter(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy))
+										resolutionL.Fill(Ytrak[5],-Ytrak[5]+inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5]))
 							elif not enableToyMC:
-								resolutionL.Fill(Ytrak[5],inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])-Ytrak[5])
+								if method == "Pol6":
+								resolutionL.Fill(Ytrak[5],inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])-Ytrak[5])
+								if method == "Inter":
+								resolutionL.Fill(inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]),-Ytrak[5]+inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5]))
 					else:
 						resolutionL.Fill(Ytrak[5],inverseVshapeParametric(conversion*(tt01[best]-tt08[0]),parL,Ytrak[5])-Ytrak[5])
 		else :
