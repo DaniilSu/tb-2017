@@ -325,8 +325,8 @@ conversion = 25.0/1024
 
 # Declaring the new Tree
 
-newTree = TTree("short_tube")
-newTree_long = TTree("long_tube")
+newTree = TTree("short_tube", "The tree with events, which had hits in the short tube")
+newTree_long = TTree("long_tube", "The tree with events, which had hits in the long tube")
 
 Y_track_short = Double_t()
 Y_track_short_err = Double_t()
