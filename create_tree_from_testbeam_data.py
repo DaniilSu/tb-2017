@@ -388,9 +388,6 @@ r = TRandom3()
 
 for iEvt in range(10000):
 
-	if abs(vme_missed_event) > 100000:
-		break
-
 	if (iEvt + mambaTmp + 1) % 100 == 0:
 		sys.stdout.write("Processing event:\t" + str(iEvt + mambaTmp +1)+ "\r" )
 		sys.stdout.flush()
