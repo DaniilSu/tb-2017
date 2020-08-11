@@ -157,7 +157,7 @@ def chooseTheBest(nt, tt, tt08, vshapeVal, sigma=None) :
 	valid = []
 	dist_old = abs(conversion*(tt[0]-tt08[0])-vshapeVal)
 	if not sigma:
-		for i in xrange(nt-1) :
+		for i in range(nt-1) :
 			dist = abs(conversion*(tt[i+1]-tt08[0])-vshapeVal)
 			if (dist < dist_old) :
 				best = i + 1
@@ -165,7 +165,7 @@ def chooseTheBest(nt, tt, tt08, vshapeVal, sigma=None) :
 		valid.append(best)
 		return valid
 	else:
-		for i in range(0,nt) :
+		for i in range(nt) :
 			dist = abs(conversion*(tt[i]-tt08[0])-vshapeVal)
 			if (dist < sigma):
 				best = i
@@ -347,24 +347,24 @@ if enableToyMC:
 drift_short = Double_t()
 drift_long = Double_t()
 
-newTree.Branch("Y_track_short",Y_track_short,"Y_track_short/D")
-newTree.Branch("Y_track_short_err",Y_track_short_err,"Y_track_short_err/D")
-newTree.Branch("Y_short",Y_short,"Y_short/D")
+newTree.Branch("Y_track_short","Y_track_short","Y_track_short/D")
+newTree.Branch("Y_track_short_err","Y_track_short_err","Y_track_short_err/D")
+newTree.Branch("Y_short","Y_short","Y_short/D")
 
-newTree_long.Branch("Y_track_long",Y_track_long,"Y_track_long/D")
-newTree_long.Branch("Y_track_long_err",Y_track_long_err,"Y_track_long_err/D")
-newTree_long.Branch("Y_long",Y_long,"Y_long/D")
+newTree_long.Branch("Y_track_long","Y_track_long","Y_track_long/D")
+newTree_long.Branch("Y_track_long_err","Y_track_long_err","Y_track_long_err/D")
+newTree_long.Branch("Y_long","Y_long","Y_long/D")
 
-newTree.Branch("drift_time_short",drift_short,"drift_short/D")
-newTree_long.Branch("drift_time_long",drift_long,"drift_long/D")
+newTree.Branch("drift_time_short","drift_short","drift_short/D")
+newTree_long.Branch("drift_time_long","drift_long","drift_long/D")
 
 if enableToyMC:
-	newTree.Branch("Y_toyMC_short",Y_toy_short,"Y_toy_short/D")
-	newTree_long.Branch("Y_toyMC_long",Y_toy_long,"Y_toy_long/D")
-	newTree.Branch("Y_track_toyMC_short",Y_track_toy_short,"Y_track_toy_short/D")
-	newTree_long.Branch("Y_track_toyMC_long",Y_track_toy_long,"Y_track_toy_long/D")
-	newTree.Branch("drift_time_toyMC_short",drift_toy_short,"drift_toy_short/D")
-	newTree_long.Branch("drift_time_toyMC_long",drift_toy_long,"drift_toy_long/D")
+	newTree.Branch("Y_toyMC_short","Y_toy_short","Y_toy_short/D")
+	newTree_long.Branch("Y_toyMC_long","Y_toy_long","Y_toy_long/D")
+	newTree.Branch("Y_track_toyMC_short","Y_track_toy_short","Y_track_toy_short/D")
+	newTree_long.Branch("Y_track_toyMC_long","Y_track_toy_long","Y_track_toy_long/D")
+	newTree.Branch("drift_time_toyMC_short","drift_toy_short","drift_toy_short/D")
+	newTree_long.Branch("drift_time_toyMC_long","drift_toy_long","drift_toy_long/D")
 
 mamba_tree.GetEntry(0)
 
@@ -386,7 +386,7 @@ YCov = np.zeros((2, 2))
 
 r = TRandom3()
 
-for iEvt in xrange(n_mamba_events-mambaTmp):
+for iEvt in xrange(10000):
 
 	if abs(vme_missed_event) > 100000:
 		break
