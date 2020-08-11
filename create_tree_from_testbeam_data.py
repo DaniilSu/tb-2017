@@ -278,11 +278,8 @@ if advVshapeFit:
 
 testbeam_data_file = TFile(sys.argv[1],"read")
 
-mamba_tree = TTree()
-vme_tree = TTree()
-
-testbeam_data_file.GetObject("tree",mamba_tree)
-testbeam_data_file.GetObject("ADC1",vme_tree)
+mamba_tree = testbeam_data_file.Get("tree")
+vme_tree = testbeam_data_file.Get("ADC1")
 
 n_mamba_events = mamba_tree.GetEntries()
 print("Number of MAMBA Entries:\t", n_mamba_events, "\n")
