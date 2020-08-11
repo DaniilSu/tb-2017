@@ -386,7 +386,7 @@ YCov = np.zeros((2, 2))
 
 r = TRandom3()
 
-for iEvt in xrange(10000):
+for iEvt in range(10000):
 
 	if abs(vme_missed_event) > 100000:
 		break
