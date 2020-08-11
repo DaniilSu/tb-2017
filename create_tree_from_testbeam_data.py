@@ -446,9 +446,9 @@ for iEvt in range(10000):
 		varY_long = sqrt((Y_zvals[5] ** 2) * YCov[1][1] + YCov[0][0] + Y_zvals[5] * (YCov[1][0] + YCov[0][1]))
 
 		if ((nt00==1) and (nt08==1)) :
-			Y_track_short = Ytrak[4]
-			Y_track_short_err = varY_short
-			drift_short = conversion*(tt00[0]-tt08[0])
+			Y_track_short[0] = Ytrak[4]
+			Y_track_short_err[0] = varY_short
+			drift_short[0] = conversion*(tt00[0]-tt08[0])
 			if advVshapeFit:
 				if enableToyMC:
 					if Ytrak[4] < bordS[1] and Ytrak[4] > bordS[0]:
@@ -459,32 +459,32 @@ for iEvt in range(10000):
 						else:
 							Ytrak_toy = r.Gaus(Ytrak[4],sigmaYtrak)
 							time_toy = r.Gaus(vshapeParametricMod(Ytrak[4],parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[4],parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-						Y_track_toy_short = Ytrak_toy
-						drift_toy_short = time_toy
+						Y_track_toy_short[0] = Ytrak_toy
+						drift_toy_short[0] = time_toy
 						if method == "Inter":
 							if time_toy <= SinterTopMax or time_toy <= SinterBotMax:
-								Y_toy_short = inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy)
+								Y_toy_short[0] = inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy)
 							else:
 								choice = r.Rndm()
 								if choice > 0.5:
-									Y_toy_short = r.Uniform(bordS[0]-0.5,bordS[0])
+									Y_toy_short[0] = r.Uniform(bordS[0]-0.5,bordS[0])
 								else:
-									Y_toy_short = r.Uniform(bordS[1],bordS[1]+0.5)
+									Y_toy_short[0] = r.Uniform(bordS[1],bordS[1]+0.5)
 						if method == "Pol6":
-							Y_toy_short = inverseVshapeParametricMod(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy)
+							Y_toy_short[0] = inverseVshapeParametricMod(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy)
 				if method == "Pol6":
-					Y_short = inverseVshapeParametricMod(conversion*(tt00[0]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])
+					Y_short[0] = inverseVshapeParametricMod(conversion*(tt00[0]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])
 				if method == "Inter":
 					if conversion*(tt00[0]-tt08[0]) <= SinterTopMax or conversion*(tt00[0]-tt08[0]) <= SinterBotMax :
-						Y_short = inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4])
+						Y_short[0] = inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4])
 					else:
 						choice = r.Rndm()
 						if choice > 0.5:
-							Y_short = r.Uniform(bordS[0]-0.5,bordS[0])
+							Y_short[0] = r.Uniform(bordS[0]-0.5,bordS[0])
 						else:
-							Y_short = r.Uniform(bordS[1],bordS[1]+0.5)
+							Y_short[0] = r.Uniform(bordS[1],bordS[1]+0.5)
 			else:
-				Y_short = inverseVshapeParametric(conversion*(tt00[0]-tt08[0]),parS,Ytrak[4])
+				Y_short[0] = inverseVshapeParametric(conversion*(tt00[0]-tt08[0]),parS,Ytrak[4])
 			newTree.Fill()
 
 		if ((nt00>1) and (nt08==1)) :
@@ -494,9 +494,9 @@ for iEvt in range(10000):
 				bestPoints = chooseTheBest(nt00,tt00,tt08,vshapeParametric(Ytrak[4],parS),distSigma)
 			if len(bestPoints) < 1: continue
 			for best in bestPoints:
-				Y_track_short = Ytrak[4]
-				Y_track_short_err = varY_short
-				drift_short = conversion*(tt00[best]-tt08[0])
+				Y_track_short[0] = Ytrak[4]
+				Y_track_short_err[0] = varY_short
+				drift_short[0] = conversion*(tt00[best]-tt08[0])
 				if advVshapeFit:
 					if enableToyMC:
 						if Ytrak[4] < bordS[1] and Ytrak[4] > bordS[0]:
@@ -507,38 +507,38 @@ for iEvt in range(10000):
 							else:
 								Ytrak_toy = r.Gaus(Ytrak[4],sigmaYtrak)
 								time_toy = r.Gaus(vshapeParametricMod(Ytrak[4],parS),((sigma2time-sigma1time)/(max(dtimeS)-min(dtimeS)))*vshapeParametricMod(Ytrak[4],parS)+(sigma1time*max(dtimeS)-min(dtimeS)*sigma2time)/(max(dtimeS)-min(dtimeS)))
-							Y_track_toy_short = Ytrak_toy
-							drift_toy_short = time_toy
+							Y_track_toy_short[0] = Ytrak_toy
+							drift_toy_short[0] = time_toy
 							if method == "Inter":
 								if time_toy <= SinterTopMax or time_toy <= SinterBotMax:
-									Y_toy_short = inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy)
+									Y_toy_short[0] = inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy)
 								else:
 									choice = r.Rndm()
 									if choice > 0.5:
-										Y_toy_short = r.Uniform(bordS[0]-0.5,bordS[0])
+										Y_toy_short[0] = r.Uniform(bordS[0]-0.5,bordS[0])
 									else:
-										Y_toy_short = r.Uniform(bordS[1],bordS[1]+0.5)
+										Y_toy_short[0] = r.Uniform(bordS[1],bordS[1]+0.5)
 							if method == "Pol6":
-								Y_toy_short = inverseVshapeParametricMod(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy)
+								Y_toy_short[0] = inverseVshapeParametricMod(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy)
 					if method == "Pol6":
-						Y_short = inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])
+						Y_short[0] = inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])
 					if method == "Inter":
 						if conversion*(tt00[best]-tt08[0]) <= SinterTopMax or conversion*(tt00[best]-tt08[0]) <= SinterBotMax :
-							Y_short = inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4])
+							Y_short[0] = inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4])
 						else:
 							choice = r.Rndm()
 							if choice > 0.5:
-								Y_short = r.Uniform(bordS[0]-0.5,bordS[0])
+								Y_short[0] = r.Uniform(bordS[0]-0.5,bordS[0])
 							else:
-								Y_short = r.Uniform(bordS[1],bordS[1]+0.5)
+								Y_short[0] = r.Uniform(bordS[1],bordS[1]+0.5)
 				else:
-					Y_short = inverseVshapeParametric(conversion*(tt00[best]-tt08[0]),parS,Ytrak[4])
+					Y_short[0] = inverseVshapeParametric(conversion*(tt00[best]-tt08[0]),parS,Ytrak[4])
 				newTree.Fill()
 				
 		if ((nt01==1) and (nt08==1)) :
-			Y_track_long = Ytrak[5]
-			Y_track_long_err = varY_long
-			drift_long = conversion*(tt01[0]-tt08[0])
+			Y_track_long[0] = Ytrak[5]
+			Y_track_long_err[0] = varY_long
+			drift_long[0] = conversion*(tt01[0]-tt08[0])
 			if advVshapeFit:
 				if enableToyMC:
 					if Ytrak[5] < bordL[1] and Ytrak[5] > bordL[0]:
@@ -549,32 +549,32 @@ for iEvt in range(10000):
 						else:
 							Ytrak_toy = r.Gaus(Ytrak[5],sigmaYtrak)
 							time_toy = r.Gaus(vshapeParametricMod(Ytrak[5],parL),((sigma2time-sigma1time)/(max(dtimeL)-min(dtimeL)))*vshapeParametricMod(Ytrak[5],parL)+(sigma1time*max(dtimeL)-min(dtimeL)*sigma2time)/(max(dtimeL)-min(dtimeL)))
-						Y_track_toy_long = Ytrak_toy
-						drift_toy_long = time_toy
+						Y_track_toy_long[0] = Ytrak_toy
+						drift_toy_long[0] = time_toy
 						if method == "Inter":
 							if time_toy <= LinterTopMax or time_toy <= LinterBotMax:
-								Y_toy_long = inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy)
+								Y_toy_long[0] = inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy)
 							else:
 								choice = r.Rndm()
 								if choice > 0.5:
-									Y_toy_long = r.Uniform(bordL[0]-0.5,bordL[0])
+									Y_toy_long[0] = r.Uniform(bordL[0]-0.5,bordL[0])
 								else:
-									Y_toy_long = r.Uniform(bordL[1],bordL[1]+0.5)
+									Y_toy_long[0] = r.Uniform(bordL[1],bordL[1]+0.5)
 						if method == "Pol6":
-							Y_toy_long = inverseVshapeParametricMod(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy)
+							Y_toy_long[0] = inverseVshapeParametricMod(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy)
 				if method == "Pol6":
-					Y_long = inverseVshapeParametricMod(conversion*(tt01[0]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])
+					Y_long[0] = inverseVshapeParametricMod(conversion*(tt01[0]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])
 				if method == "Inter":
 					if conversion*(tt01[0]-tt08[0]) <= LinterTopMax or conversion*(tt01[0]-tt08[0]) <= LinterBotMax :
-						Y_long = inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])
+						Y_long[0] = inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])
 					else:
 						choice = r.Rndm()
 						if choice > 0.5:
-							Y_long = r.Uniform(bordL[0]-0.5,bordL[0])
+							Y_long[0] = r.Uniform(bordL[0]-0.5,bordL[0])
 						else:
-							Y_long = r.Uniform(bordL[1],bordL[1]+0.5)
+							Y_long[0] = r.Uniform(bordL[1],bordL[1]+0.5)
 			else:
-				Y_long = inverseVshapeParametric(conversion*(tt01[0]-tt08[0]),parL,Ytrak[5])
+				Y_long[0] = inverseVshapeParametric(conversion*(tt01[0]-tt08[0]),parL,Ytrak[5])
 			newTree_long.Fill()
 
 		if ((nt01>1) and (nt08==1)) :
@@ -584,9 +584,9 @@ for iEvt in range(10000):
 				bestPoints = chooseTheBest(nt01,tt01,tt08,vshapeParametric(Ytrak[5],parL),distSigma)
 			if len(bestPoints) < 1: continue
 			for best in bestPoints:
-				Y_track_long = Ytrak[5]
-				Y_track_long_err = varY_long
-				drift_long = conversion*(tt01[best]-tt08[0])
+				Y_track_long[0] = Ytrak[5]
+				Y_track_long_err[0] = varY_long
+				drift_long[0] = conversion*(tt01[best]-tt08[0])
 				if advVshapeFit:
 					if enableToyMC:
 						if Ytrak[5] < bordL[1] and Ytrak[5] > bordL[0]:
@@ -597,32 +597,32 @@ for iEvt in range(10000):
 							else:
 								Ytrak_toy = r.Gaus(Ytrak[5],sigmaYtrak)
 								time_toy = r.Gaus(vshapeParametricMod(Ytrak[5],parL),((sigma2time-sigma1time)/(max(dtimeL)-min(dtimeL)))*vshapeParametricMod(Ytrak[5],parL)+(sigma1time*max(dtimeL)-min(dtimeL)*sigma2time)/(max(dtimeL)-min(dtimeL)))
-							Y_track_toy_long = Ytrak_toy
-							drift_toy_long = time_toy
+							Y_track_toy_long[0] = Ytrak_toy
+							drift_toy_long[0] = time_toy
 							if method == "Inter":
 								if time_toy <= LinterTopMax or time_toy <= LinterBotMax:
-									Y_toy_long = inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy)
+									Y_toy_long[0] = inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy)
 								else:
 									choice = r.Rndm()
 									if choice > 0.5:
-										Y_toy_long = r.Uniform(bordL[0]-0.5,bordL[0])
+										Y_toy_long[0] = r.Uniform(bordL[0]-0.5,bordL[0])
 									else:
-										Y_toy_long = r.Uniform(bordL[1],bordL[1]+0.5)
+										Y_toy_long[0] = r.Uniform(bordL[1],bordL[1]+0.5)
 							if method == "Pol6":
-								Y_toy_long = inverseVshapeParametricMod(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy)
+								Y_toy_long[0] = inverseVshapeParametricMod(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy)
 					if method == "Pol6":
-						Y_long = inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])
+						Y_long[0] = inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])
 					if method == "Inter":
 						if conversion*(tt01[best]-tt08[0]) <= LinterTopMax or conversion*(tt01[best]-tt08[0]) <= LinterBotMax :
-							Y_long = inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])
+							Y_long[0] = inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])
 						else:
 							choice = r.Rndm()
 							if choice > 0.5:
-								Y_long = r.Uniform(bordL[0]-0.5,bordL[0])
+								Y_long[0] = r.Uniform(bordL[0]-0.5,bordL[0])
 							else:
-								Y_long = r.Uniform(bordL[1],bordL[1]+0.5)
+								Y_long[0] = r.Uniform(bordL[1],bordL[1]+0.5)
 				else:
-					Y_long = inverseVshapeParametric(conversion*(tt01[best]-tt08[0]),parL,Ytrak[5])
+					Y_long[0] = inverseVshapeParametric(conversion*(tt01[best]-tt08[0]),parL,Ytrak[5])
 				newTree_long.Fill()
 
 newTree.Write()
