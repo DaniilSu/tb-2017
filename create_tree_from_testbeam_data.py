@@ -230,9 +230,9 @@ if not advVshapeFit:
 	f.readline()
 	f.readline()
 	f.readline()
-	bordS = float(f.readline().split()[0])
+	bordS = [float(i) for i in f.readline().split()]
 	f.readline()
-	bordL = float(f.readline().split()[0])
+	bordL = [float(i) for i in f.readline().split()]
 else:
 	f.readline()
 	parS = [float(i) for i in f.readline().split()]
@@ -243,9 +243,9 @@ else:
 	f.readline()
 	f.readline()
 	f.readline()
-	bordS = float(f.readline().split()[0])
+	bordS = [float(i) for i in f.readline().split()]
 	f.readline()
-	bordL = float(f.readline().split()[0])
+	bordL = [float(i) for i in f.readline().split()]
 	f.readline()
 	f.readline()
 	f.readline()
