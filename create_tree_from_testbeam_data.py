@@ -213,14 +213,6 @@ else:
 if not os.path.exists("outputfiles/"):
 	os.makedirs("outputfiles/")
 
-if not binSizeFlag:
-	resol_file_name = "coordinates_and_drift_time_" + sys.argv[3] + ".root"
-else:
-	resol_file_name = "coordinates_and_drift_time_" + sys.argv[3] + "_bin_" + sys.argv[4] + "_" + sys.argv[5] + ".root"
-resol_file = TFile("outputfiles/" + resol_file_name, "RECREATE")
-if resol_file.IsOpen():
-	print("The output file with coordinates and drift times was opened successfully!")
-
 f = open(sys.argv[6]+vshf,"r")
 if not advVshapeFit:
 	f.readline()
@@ -283,6 +275,14 @@ testbeam_data_file = TFile(sys.argv[1],"read")
 
 mamba_tree = testbeam_data_file.Get("tree")
 vme_tree = testbeam_data_file.Get("ADC1")
+
+if not binSizeFlag:
+	resol_file_name = "coordinates_and_drift_time_" + sys.argv[3] + ".root"
+else:
+	resol_file_name = "coordinates_and_drift_time_" + sys.argv[3] + "_bin_" + sys.argv[4] + "_" + sys.argv[5] + ".root"
+resol_file = TFile("outputfiles/" + resol_file_name, "RECREATE")
+if resol_file.IsOpen():
+	print("The output file with coordinates and drift times was opened successfully!")
 
 n_mamba_events = mamba_tree.GetEntries()
 print("Number of MAMBA Entries:\t", n_mamba_events, "\n")
