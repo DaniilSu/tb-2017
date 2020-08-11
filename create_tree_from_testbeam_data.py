@@ -388,7 +388,7 @@ YCov = np.zeros((2, 2))
 
 r = TRandom3()
 
-for iEvt in range(10000):
+for iEvt in range(n_mamba_events-mambaTmp):
 
 	if (iEvt + mambaTmp + 1) % 100 == 0:
 		sys.stdout.write("Processing event:\t" + str(iEvt + mambaTmp +1)+ "\r" )
