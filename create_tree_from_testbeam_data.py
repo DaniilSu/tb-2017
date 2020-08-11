@@ -4,6 +4,7 @@ import numpy as np
 from math import *
 from ROOT import *
 from decimal import *
+from scipy.interpolate import interp1d
 
 def vshapeParametric( x, par) :
 	if isinstance(x, float) or isinstance(x, int):
