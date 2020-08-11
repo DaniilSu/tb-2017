@@ -3,6 +3,7 @@ import os
 import numpy as np
 from math import *
 from ROOT import *
+from decimal import *
 
 def vshapeParametric( x, par) :
 	if isinstance(x, float) or isinstance(x, int):
