@@ -259,12 +259,12 @@ f.close()
 
 if advVshapeFit:
 	if not binSizeFlag:
-		f2S = open(sys.argv[6]+ + "points_short_" + sys.argv[3] + ".dat", "r")
+		f2S = open(sys.argv[6] + "points_short_" + sys.argv[3] + ".dat", "r")
 	else:
-		f2S = open(sys.argv[6]+ + "points_short_" + sys.argv[3] + "_bin_" + sys.argv[4] + "_" + sys.argv[5] + ".dat", "r")
+		f2S = open(sys.argv[6] + "points_short_" + sys.argv[3] + "_bin_" + sys.argv[4] + "_" + sys.argv[5] + ".dat", "r")
 	coordS,dtimeS,errorcoordS,errordtimeS = np.loadtxt(f2S, skiprows=1, unpack=True)
 	f2S.close()
-	f2L = open(sys.argv[6]+ + "points_long_" + sys.argv[3] + ".dat", "r")
+	f2L = open(sys.argv[6] + "points_long_" + sys.argv[3] + ".dat", "r")
 	coordL,dtimeL,errorcoordL,errordtimeL = np.loadtxt(f2L, skiprows=1, unpack=True)
 	f2L.close()
 	if method == "Pol6":
