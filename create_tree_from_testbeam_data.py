@@ -214,7 +214,7 @@ else:
 	resol_file_name = "coordinates_and_drift_time_" + sys.argv[3] + "_bin_" + sys.argv[4] + "_" + sys.argv[5] + ".root"
 resol_file = TFile("outputfiles/" + resol_file_name, "RECREATE")
 if resol_file.IsOpen():
-	print "The output file with coordinates and drift times was opened successfully!"
+	print("The output file with coordinates and drift times was opened successfully!")
 
 f = open(sys.argv[6]+vshf,"r")
 if not advVshapeFit:
@@ -283,9 +283,9 @@ testbeam_data_file.GetObject("tree",mamba_tree)
 testbeam_data_file.GetObject("ADC1",vme_tree)
 
 n_mamba_events = mamba_tree.GetEntries()
-print "Number of MAMBA Entries:\t", n_mamba_events, "\n"
+print("Number of MAMBA Entries:\t", n_mamba_events, "\n")
 n_vme_events = vme_tree.GetEntries()
-print "Number of VME Entries:\t", n_vme_events, "\n"
+print("Number of VME Entries:\t", n_vme_events, "\n")
 
 # z position of detectors
 
@@ -379,7 +379,7 @@ k_y = 0
 
 mambaTmp = 0
 
-print 'First event (i = %d and vmeID = %d) :' % (mambaTmp, vmeID)
+print('First event (i = {0} and vmeID = {1}) :'.format(mambaTmp, vmeID))
 
 XCov = np.zeros((2, 2))
 YCov = np.zeros((2, 2))
