@@ -197,6 +197,8 @@ if enableToyMC:
 
 advVshapeFit = True
 
+distSigma = None
+
 # Switch between 6-deg polynomial and interpolation
 
 if advVshapeFit:
