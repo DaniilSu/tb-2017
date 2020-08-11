@@ -309,15 +309,15 @@ Xerrs = [ 0.005, 0.005, 0.005, 0.005] # estimated
 Zerrs = [0.1, 0.1, 0.1, 0.1]
 
 for i in range(6):
-if i < 4:
-	X_zvals[i] = (zPos_x[i] + dzPos_x[i])
-	Y_zvals[i] = (zPos_y[i] + dzPos_y[i])
-elif i == 4:
-	X_zvals[i] = straw_zPos
-	Y_zvals[i] = straw_zPos
-else:
-	X_zvals[i] = straw_zPos_long
-	Y_zvals[i] = straw_zPos_long
+	if i < 4:
+		X_zvals[i] = (zPos_x[i] + dzPos_x[i])
+		Y_zvals[i] = (zPos_y[i] + dzPos_y[i])
+	elif i == 4:
+		X_zvals[i] = straw_zPos
+		Y_zvals[i] = straw_zPos
+	else:
+		X_zvals[i] = straw_zPos_long
+		Y_zvals[i] = straw_zPos_long
 
 # TDC conversion for hits: 1024 is 25ns
 
