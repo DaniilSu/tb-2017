@@ -278,8 +278,12 @@ vme_tree = testbeam_data_file.Get("ADC1")
 
 if not binSizeFlag:
 	resol_file_name = "coordinates_and_drift_time_" + sys.argv[3] + ".root"
+	if advVshapeFit:
+		resol_file_name = "coordinates_and_drift_time_" + method + "_" + sys.argv[3] + ".root"
 else:
 	resol_file_name = "coordinates_and_drift_time_" + sys.argv[3] + "_bin_" + sys.argv[4] + "_" + sys.argv[5] + ".root"
+	if advVshapeFit:
+		resol_file_name = "coordinates_and_drift_time_" + method + "_" + sys.argv[3] + "_bin_" + sys.argv[4] + "_" + sys.argv[5] + ".root"
 resol_file = TFile("outputfiles/" + resol_file_name, "RECREATE")
 if resol_file.IsOpen():
 	print("The output file with coordinates and drift times was opened successfully!")
