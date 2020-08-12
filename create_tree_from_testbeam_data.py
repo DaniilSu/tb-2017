@@ -202,7 +202,19 @@ distSigma = None
 # Switch between 6-deg polynomial and interpolation
 
 if advVshapeFit:
-	method = "Inter" # Inter or Pol6
+	method = "Pol6" # Inter or Pol6
+	
+if not binSizeFlag:
+	resolutionS = TH2F("Resolution_short", "Resolution_short", 200, -1., 1., 240, -1.2, 1.2)
+	if enableToyMC:
+		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", 200, -1., 1., 240, -1.2, 1.2)
+else:
+	resolutionS = TH2F("Resolution_short", "Resolution_short", int(2.4/(0.0001*float(sys.argv[4]))), -1.2, 1.2, 1000, -1.2, 1.2)
+	if enableToyMC:
+		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", int(2.4/(0.0001*float(sys.argv[4]))), -1.2, 1.2, 1000, -1.2, 1.2)
+resolutionL = TH2F("Resolution_long", "Resolution_long", 300, -1.5, 1.5, 60, -0.3, 0.3)
+if enableToyMC:
+	resolutionL_toy = TH2F("Resolution_long_toy", "Resolution_long_toyMC", 300, -1.5, 1.5, 60, -0.3, 0.3)
 	
 vshf = "vshape_pars_"
 if not binSizeFlag:
@@ -391,8 +403,8 @@ XCov = np.zeros((2, 2))
 YCov = np.zeros((2, 2))
 
 r = TRandom3()
-
-for iEvt in range(n_mamba_events-mambaTmp):
+# n_mamba_events-mambaTmp
+for iEvt in range(10000):
 
 	if (iEvt + mambaTmp + 1) % 100 == 0:
 		sys.stdout.write("Processing event:\t" + str(iEvt + mambaTmp +1)+ "\r" )
@@ -468,27 +480,36 @@ for iEvt in range(n_mamba_events-mambaTmp):
 						if method == "Inter":
 							if time_toy <= SinterTopMax or time_toy <= SinterBotMax:
 								Y_toy_short[0] = inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy)
+								resolutionS_toy.Fill(Y_toy_short[0], - Y_track_toy_short[0] + Y_toy_short[0])
 							else:
 								choice = r.Rndm()
 								if choice > 0.5:
 									Y_toy_short[0] = r.Uniform(bordS[0]-0.5,bordS[0])
+									resolutionS_toy.Fill(Y_toy_short[0], - Y_track_toy_short[0] + Y_toy_short[0])
 								else:
 									Y_toy_short[0] = r.Uniform(bordS[1],bordS[1]+0.5)
+									resolutionS_toy.Fill(Y_toy_short[0], - Y_track_toy_short[0] + Y_toy_short[0])
 						if method == "Pol6":
 							Y_toy_short[0] = inverseVshapeParametricMod(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy)
+							resolutionS_toy.Fill(Y_toy_short[0], - Y_track_toy_short[0] + Y_toy_short[0])
 				if method == "Pol6":
 					Y_short[0] = inverseVshapeParametricMod(conversion*(tt00[0]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])
+					resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 				if method == "Inter":
 					if conversion*(tt00[0]-tt08[0]) <= SinterTopMax or conversion*(tt00[0]-tt08[0]) <= SinterBotMax :
 						Y_short[0] = inverseVshapeParametricInter(conversion*(tt00[0]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4])
+						resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 					else:
 						choice = r.Rndm()
 						if choice > 0.5:
 							Y_short[0] = r.Uniform(bordS[0]-0.5,bordS[0])
+							resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 						else:
 							Y_short[0] = r.Uniform(bordS[1],bordS[1]+0.5)
+							resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 			else:
 				Y_short[0] = inverseVshapeParametric(conversion*(tt00[0]-tt08[0]),parS,Ytrak[4])
+				resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 			newTree.Fill()
 
 		if ((nt00>1) and (nt08==1)) :
@@ -516,27 +537,36 @@ for iEvt in range(n_mamba_events-mambaTmp):
 							if method == "Inter":
 								if time_toy <= SinterTopMax or time_toy <= SinterBotMax:
 									Y_toy_short[0] = inverseVshapeParametricInter(time_toy,fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak_toy)
+									resolutionS_toy.Fill(Y_toy_short[0], - Y_track_toy_short[0] + Y_toy_short[0])
 								else:
 									choice = r.Rndm()
 									if choice > 0.5:
 										Y_toy_short[0] = r.Uniform(bordS[0]-0.5,bordS[0])
+										resolutionS_toy.Fill(Y_toy_short[0], - Y_track_toy_short[0] + Y_toy_short[0])
 									else:
 										Y_toy_short[0] = r.Uniform(bordS[1],bordS[1]+0.5)
+										resolutionS_toy.Fill(Y_toy_short[0], - Y_track_toy_short[0] + Y_toy_short[0])
 							if method == "Pol6":
 								Y_toy_short[0] = inverseVshapeParametricMod(time_toy,parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak_toy)
+								resolutionS_toy.Fill(Y_toy_short[0], - Y_track_toy_short[0] + Y_toy_short[0])
 					if method == "Pol6":
 						Y_short[0] = inverseVshapeParametricMod(conversion*(tt00[best]-tt08[0]),parSinvTop,parSinvBot,SinvTopMin,SinvBotMin,Ytrak[4])
+						resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 					if method == "Inter":
 						if conversion*(tt00[best]-tt08[0]) <= SinterTopMax or conversion*(tt00[best]-tt08[0]) <= SinterBotMax :
 							Y_short[0] = inverseVshapeParametricInter(conversion*(tt00[best]-tt08[0]),fSinterTop,fSinterBot,SinterTopMin,SinterBotMin,SinterTopMax,SinterBotMax,Ytrak[4])
+							resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 						else:
 							choice = r.Rndm()
 							if choice > 0.5:
 								Y_short[0] = r.Uniform(bordS[0]-0.5,bordS[0])
+								resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 							else:
 								Y_short[0] = r.Uniform(bordS[1],bordS[1]+0.5)
+								resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 				else:
 					Y_short[0] = inverseVshapeParametric(conversion*(tt00[best]-tt08[0]),parS,Ytrak[4])
+					resolutionS.Fill(Y_short[0], - Y_track_short[0] + Y_short[0])
 				newTree.Fill()
 				
 		if ((nt01==1) and (nt08==1)) :
@@ -558,27 +588,36 @@ for iEvt in range(n_mamba_events-mambaTmp):
 						if method == "Inter":
 							if time_toy <= LinterTopMax or time_toy <= LinterBotMax:
 								Y_toy_long[0] = inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy)
+								resolutionL_toy.Fill(Y_toy_long[0], - Y_track_toy_long[0] + Y_toy_long[0])
 							else:
 								choice = r.Rndm()
 								if choice > 0.5:
 									Y_toy_long[0] = r.Uniform(bordL[0]-0.5,bordL[0])
+									resolutionL_toy.Fill(Y_toy_long[0], - Y_track_toy_long[0] + Y_toy_long[0])
 								else:
 									Y_toy_long[0] = r.Uniform(bordL[1],bordL[1]+0.5)
+									resolutionL_toy.Fill(Y_toy_long[0], - Y_track_toy_long[0] + Y_toy_long[0])
 						if method == "Pol6":
 							Y_toy_long[0] = inverseVshapeParametricMod(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy)
+							resolutionL_toy.Fill(Y_toy_long[0], - Y_track_toy_long[0] + Y_toy_long[0])
 				if method == "Pol6":
 					Y_long[0] = inverseVshapeParametricMod(conversion*(tt01[0]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])
+					resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 				if method == "Inter":
 					if conversion*(tt01[0]-tt08[0]) <= LinterTopMax or conversion*(tt01[0]-tt08[0]) <= LinterBotMax :
 						Y_long[0] = inverseVshapeParametricInter(conversion*(tt01[0]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])
+						resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 					else:
 						choice = r.Rndm()
 						if choice > 0.5:
 							Y_long[0] = r.Uniform(bordL[0]-0.5,bordL[0])
+							resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 						else:
 							Y_long[0] = r.Uniform(bordL[1],bordL[1]+0.5)
+							resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 			else:
 				Y_long[0] = inverseVshapeParametric(conversion*(tt01[0]-tt08[0]),parL,Ytrak[5])
+				resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 			newTree_long.Fill()
 
 		if ((nt01>1) and (nt08==1)) :
@@ -606,30 +645,45 @@ for iEvt in range(n_mamba_events-mambaTmp):
 							if method == "Inter":
 								if time_toy <= LinterTopMax or time_toy <= LinterBotMax:
 									Y_toy_long[0] = inverseVshapeParametricInter(time_toy,fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak_toy)
+									resolutionL_toy.Fill(Y_toy_long[0], - Y_track_toy_long[0] + Y_toy_long[0])
 								else:
 									choice = r.Rndm()
 									if choice > 0.5:
 										Y_toy_long[0] = r.Uniform(bordL[0]-0.5,bordL[0])
+										resolutionL_toy.Fill(Y_toy_long[0], - Y_track_toy_long[0] + Y_toy_long[0])
 									else:
 										Y_toy_long[0] = r.Uniform(bordL[1],bordL[1]+0.5)
+										resolutionL_toy.Fill(Y_toy_long[0], - Y_track_toy_long[0] + Y_toy_long[0])
 							if method == "Pol6":
 								Y_toy_long[0] = inverseVshapeParametricMod(time_toy,parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak_toy)
+								resolutionL_toy.Fill(Y_toy_long[0], - Y_track_toy_long[0] + Y_toy_long[0])
 					if method == "Pol6":
 						Y_long[0] = inverseVshapeParametricMod(conversion*(tt01[best]-tt08[0]),parLinvTop,parLinvBot,LinvTopMin,LinvBotMin,Ytrak[5])
+						resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 					if method == "Inter":
 						if conversion*(tt01[best]-tt08[0]) <= LinterTopMax or conversion*(tt01[best]-tt08[0]) <= LinterBotMax :
 							Y_long[0] = inverseVshapeParametricInter(conversion*(tt01[best]-tt08[0]),fLinterTop,fLinterBot,LinterTopMin,LinterBotMin,LinterTopMax,LinterBotMax,Ytrak[5])
+							resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 						else:
 							choice = r.Rndm()
 							if choice > 0.5:
 								Y_long[0] = r.Uniform(bordL[0]-0.5,bordL[0])
+								resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 							else:
 								Y_long[0] = r.Uniform(bordL[1],bordL[1]+0.5)
+								resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 				else:
 					Y_long[0] = inverseVshapeParametric(conversion*(tt01[best]-tt08[0]),parL,Ytrak[5])
+					resolutionL.Fill(Y_long[0], - Y_track_long[0] + Y_long[0])
 				newTree_long.Fill()
 
 newTree.Write()
 newTree_long.Write()
+
+resolutionS.Write()
+resolutionL.Write()
+if enableToyMC:
+	resolutionS_toy.Write()
+	resolutionL_toy.Write()
 
 resol_file.Close()
