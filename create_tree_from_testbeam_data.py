@@ -205,9 +205,9 @@ if advVshapeFit:
 	method = "Pol6" # Inter or Pol6
 	
 if not binSizeFlag:
-	resolutionS = TH2F("Resolution_short", "Resolution_short", 200, -1., 1., 240, -1.2, 1.2)
+	resolutionS = TH2F("Resolution_short", "Resolution_short", 240, -1.2, 1.2, 1000, -1.2, 1.2)
 	if enableToyMC:
-		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", 200, -1., 1., 240, -1.2, 1.2)
+		resolutionS_toy = TH2F("Resolution_short_toy", "Resolution_short_toyMC", 240, -1.2, 1.2, 1000, -1.2, 1.2)
 else:
 	resolutionS = TH2F("Resolution_short", "Resolution_short", int(2.4/(0.0001*float(sys.argv[4]))), -1.2, 1.2, 1000, -1.2, 1.2)
 	if enableToyMC:
